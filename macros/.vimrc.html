@@ -1,0 +1,265 @@
+" ===================================================================
+" HTML - HTML - HTML - HTML - HTML - HTML - HTML - HTML 
+" ===================================================================
+"
+" HTML - HyperText Markup Language - the language of the World Wide Web
+" {Based on Sven Guckes's _vimrc (guckes@vim.org (guckes@math.fu-berlin.de)).
+"  Changes by Jean Jordaan (rgo_anas@rgo.sun.ac.za). My comments are mostly
+"  between curly brackets.}
+"
+"   {Strip HTML from selected region.}
+  vmap _- :s?<[^>]*>??g<CR>
+"
+" ===================================================================
+" HTML - inserting text from standard text files
+" ===================================================================
+"
+"  Whenever I edit a web page I use ",e" to start the edit command.
+"  Then I use ",rn" to read in the web page template.
+"  As simple as that.
+"
+"       ,e  = edit www file
+  nmap  ,e :e /documents/homepage/nuut/
+  cmap  ,e  e /documents/homepage/nuut/
+"   I use ",e" here before, but this was part of the default string
+"   for "highlight", so while entering the default string the ",e"
+"   it got expanded.  Darn!
+"   { It works for me .. so far .. }
+"
+"       ,rm = read mailto
+"             (standard html file for a mailto link to my address)
+" map   ,rm :r ~/public_html/txt/mailto.html
+"
+"       ,rn = read new-page
+"             (standard html file for a new web page)
+"      see http://www.math.fu-berlin.de/~guckes/txt/New.page.form.html
+" map   ,rn :r  ~/public_html/txt/New.page.form.html
+  map   ,rn :0r /documents/homepage/publish/afrndl/txt/New.page.form.html
+"
+"       ,rp = read prelude
+  map   ,rp :r /documents/homepage/publish/afrndl/txt/prelude.html
+"
+"       ,Et = edit temporary file of "screen" program
+" map   ,Et :e /tmp/screen-exchange
+"       as a user of Unix systems you *must* have this program!
+"       see also:  http://www.math.fu-berlin.de/~guckes/screen/
+"
+"
+"
+" ===================================================================
+" HTML - reading in the current date
+" ===================================================================
+"
+" First, some command to add date stamps (with and without time).
+" I do these manually whenever I feel them necessary. 
+" 
+  iab Ydate <C-R>=strftime("%y%m%d")<CR>
+" Example: 971027
+"
+  iab Ytime <C-R>=strftime("%H:%M")<CR>
+" Example: 14:28 
+" 
+" iab YDT   <C-R>=strftime("%y%m%d %T")<CR>	{This is what Sven had. %T didn't seem to work}
+  iab YDT   <C-R>=strftime("%y%m%d %H:%M:%S")<CR>
+"  Example: 971027 12:00:00
+"
+" iab YDATE <C-R>=strftime("%a %b %d %T %Z %Y")<CR>	{This is what Sven had. %T didn't seem to work}
+  iab YDATE <C-R>=strftime("%a %b %d %H:%M:%S %Z %Y")<CR>
+" Example: Tue Dec 16 12:07:00 CET 1997
+"
+"     ,L  = "Last updated" - replace old time stamp with a new one
+"        preserving whitespace and using internal "strftime" command:
+"       requires the abbreviation  "YDATE"
+" map ,L 1G/Last update:\s*/e+1<CR>CYDATE<ESC>
+" Example:
+" before:  "Last update:   Thu Apr  6 12:07:00 CET 1967"
+" after:   "Last update:   Tue Dec 16 12:07:00 CET 1997"
+"
+  map ,L /\(Last\\|Laas\) \(update\\|change\\|modified\\|modification\\|bygewerk\\|verander\\|hersien\):\s*/e+1<CR>CYDT<ESC>''
+"
+"     ,L  = "Last updated" - replace old time stamp with a new one
+"        using external "date" command (not good for all systems):
+"  map ,L 1G/Last update: */e+1<CR>D:r!date<CR>kJ
+"
+" Automatically update modified date in *.htp files. 
+" TODO: Only change files that I maintain myself.
+" 
+"  augroup modified
+"   " Remove all autocommands
+"   au!
+"   " When writing a file: 
+"   "   For *.htp files, change the "Last Modified: 990201 23:13:54
+"   "   current date and time in "year-month-day time" format.
+"   autocmd BufWritePre *.htp norm ,L
+"  augroup END
+"
+" HTML - make current word an HTML environment
+" map! ,c =1Bb"aywi<=1Bea></=1B"apa>=1Bbba
+" map ,me yapa></<ESC>Ea><ESC>Bi<<ESC>/><<CR>		"{Sven's version -- couldn't figure it out}  
+" map ,me ebyawea></<ESC>ps><ESC>Bi<<ESC>/><<CR>	"{My changed version}
+  map ,me ebyei<ea><\pa><M-+><C-V><M-;>F>F>a
+"
+"
+" HTML - Inserting "single" tags
+" 
+" iab Ybr <br>          " { Moved to file html.vim }
+" iab Yhr <hr>
+" iab Yp  <p>
+"
+" HTML - Inserting Environments
+"
+"           Insert environment <b></b>
+" iab  Yb   <b></b><ESC>T>i
+" vmap ,b   c<b><c-r>"</b><esc>F>
+"
+"           Insert environment <blockquote></blockquote>
+" iab  Ybl  <blockquote></blockquote><ESC>T>i          " { Moved to file html.vim }
+" vmap ,bl  "zdi<blockquote><C-R>z</blockquote><ESC>F>
+"
+"           Insert environment <center></center>
+" iab  Ycen <center></center><ESC>T>i          " { Moved to file html.vim }
+" vmap ,ce  "zdi<center><C-M><C-R>z<C-M></center><ESC>T>i          " { Moved to file html.vim }
+"
+"           {Insert environment <!-- --> (comments)}
+"  iab  Ycom <!--  --><ESC>hhhhi          " { Moved to file html.vim }
+"  vmap ,com "zdi<-- <C-R>z --><ESC>?<-- <C-M>eeb          " { Moved to file html.vim }
+" vmap ,com "zdi<C-M><--<C-M><C-R>z<C-M>--><C-M><ESC>?<--<C-M>ea	"{This puts the hightlighted text on a line of its own, as a comment}
+"
+"           Insert environment <code></code>
+"  iab  Ycod <code></code><ESC>T>i          " { Moved to file html.vim }
+"  vmap ,cod "zdi<code><C-M><C-R>z<C-M></code><C-M><ESC>T>i          " { Moved to file html.vim }
+"
+"           Insert environment <i></i>
+"  iab  Yi   <i></i><ESC>T>i          " { Moved to file html.vim }
+"  vmap ,i   "zdi<i><C-R>z</i><ESC>T>          " { Moved to file html.vim }
+"
+"           Insert environment <p></p>
+"  iab  Ypar <p></p><ESC>T>i          " { Moved to file html.vim }
+"  vmap ,par "zdi<p><C-M><C-R>z<C-M></p><C-M><ESC>?><C-M>          " { Moved to file html.vim }
+"
+"           Insert environment <pre></pre>
+"  iab  Ypre <pre></pre><ESC>T>i          " { Moved to file html.vim }
+" vmap ,pre "zdi<pre><C-M><C-R>z</pre><C-M><ESC>T>
+"  vmap ,pre mz:<ESC>'<O<pre><ESC>'>o</pre><ESC>`z          " { Moved to file html.vim }
+"
+"           Insert environment <tt></tt>
+"  iab  Ytt  <tt></tt><ESC>T>i          " { Moved to file html.vim }
+"  vmap ,tt  "zdi<tt><C-R>z</tt><ESC>T>i          " { Moved to file html.vim }
+"
+"           Insert environment <xmp></xmp>
+"  iab  Yxmp <xmp></xmp><ESC>T>i          " { Moved to file html.vim }
+"  vmap ,xmp "zdi<xmp><C-M><C-R>z<C-M></xmp><C-M><ESC>T>i          " { Moved to file html.vim }
+"
+" HTML - Insert Header Lines (h1 to h6)
+"
+"  iab  Yh1 <h1></h1><ESC>T>i          " { Moved to file html.vim }
+"  iab  Yh2 <h2></h2><ESC>T>i          " { Moved to file html.vim }
+"  iab  Yh3 <h3></h3><ESC>T>i          " { Moved to file html.vim }
+"  iab  Yh4 <h4></h4><ESC>T>i          " { Moved to file html.vim }
+"  iab  Yh5 <h5></h5><ESC>T>i          " { Moved to file html.vim }
+"  iab  Yh6 <h6></h6><ESC>T>i          " { Moved to file html.vim }
+"
+"  vmap ,h1 "zdi<h1><C-R>z</h1><ESC>2F>          " { Moved to file html.vim }
+"  vmap ,h2 "zdi<h2><C-R>z</h2><ESC>2F>          " { Moved to file html.vim }
+"  vmap ,h3 "zdi<h3><C-R>z</h3><ESC>2F>          " { Moved to file html.vim }
+"  vmap ,h4 "zdi<h4><C-R>z</h4><ESC>2F>          " { Moved to file html.vim }
+"  vmap ,h5 "zdi<h5><C-R>z</h5><ESC>2F>          " { Moved to file html.vim }
+"  vmap ,h6 "zdi<h6><C-R>z</h6><ESC>2F>          " { Moved to file html.vim }
+"
+" HTML - Inserting Lists
+"
+"           Insert "ordered list" with one list element
+"    iab Yol <ol><CR><li><CR></ol><ESC>k          " { Moved to file html.vim }
+"           Insert "unordered list" with one list element
+"    iab Yul <ul><CR><li><CR></ul><ESC>k          " { Moved to file html.vim }
+"           Insert "description list" with one list element
+"   iab Ydl <dl><CR><dt><CR><dd><CR><p><CR></dl><CR><ESC>4kA
+"    iab Ydl <dl><CR><CR><dt><CR><dd><CR><p><CR><CR></dl><CR><ESC>5kA          " { Moved to file html.vim }
+"
+" {To do: inserting Lists *visually* (every line becomes a list item or a definition)}
+"
+" HTML - Inserting List Items
+"
+"           Insert "list" item (for both ordered and unordered list)
+"    iab Yli <li>          " { Moved to file html.vim }
+"           Insert "description list" item
+"    iab Ydt <dt><CR><dd><CR><p><CR><ESC>kA          " { Moved to file html.vim }
+"    iab Ydp <dt><CR><dd><C-M><p><C-M><ESC>kkkA           " { Moved to file html.vim }
+"
+" HTML - Inserting Links
+"
+"            Insert/make reference link
+"  iab  Yhref <a href=""></a><ESC>?""<CR>a          " { Moved to file html.vim }
+"  vmap ,href "zdi<a href=""><C-R>z</a><ESC>F"i          " { Moved to file html.vim }
+"
+"            Insert/make reference link to overview list (short"cut")
+"  iab  Ycut  \| <a href="#"<C-I>></a><ESC>F#a          " { Moved to file html.vim }
+"  vmap ,cut  "zdi<a href="#<C-R>z"<C-I>><C-R>z</a><ESC>2F>          " { Moved to file html.vim }
+"
+"            Insert/make reference link with complete URL
+"  iab  Ylink <a href=""<CR><C-I>></a><ESC>?""<CR>a          " { Moved to file html.vim }
+"  vmap ,link "zdi<a href="<C-R>z"<C-M><C-I>><C-R>z</a><ESC>2F>          " { Moved to file html.vim }
+"
+"            Insert/make name tag
+"  iab  Yname <a name=""></a><ESC>?""<CR>a          " { Moved to file html.vim }
+"  vmap ,name "zdi<a name="<C-R>z"<C-M><C-I>><C-R>z</a><ESC>2F>          " { Moved to file html.vim }
+"
+"            Insert/make link to image
+"  iab  Yimg  <img alt="[picture: title]"<C-M>   align=<C-M>     src=""></a><ESC>?""<CR>a          " { Moved to file html.vim }
+"
+"            Insert/make mailto link
+"  iab  Ymail <a href="mailto:"></a><ESC>?:<CR>a          " { Moved to file html.vim }
+"  vmap ,mail "zdi<a href="mailto:<C-R>z"><C-R>z</a><ESC>2F>          " { Moved to file html.vim }
+"
+"            Insert/make link to newsgroup
+"  iab  Ynews <a href="news:"></a><ESC>?:<CR>a          " { Moved to file html.vim }
+"  vmap ,news "zdi<a href="news:<C-R>z"><C-R>z</a><ESC>2F>          " { Moved to file html.vim }
+"
+"      Ypage Insert page description with a possible link and text
+"  iab  Ypage   <C-M>page:<C-I><C-M>link:<C-I><C-M>text:<C-I><ESC>kkA          " { Moved to file html.vim }
+" 
+"
+" HTML - Converting umlauts to digraphs [960430]
+"
+" cnoremap ,ae %s/ae/<C-V>228/gc
+" cnoremap ,oe %s/oe/<C-V>246/gc
+" cnoremap ,ue %s/ue/<C-V>252/gc
+" cnoremap ,Ae %s/Ae/<C-V>196/gc
+" cnoremap ,Oe %s/Oe/<C-V>124/gc
+" cnoremap ,Ue %s/Ue/<C-V>220/gc
+" cnoremap ,ss %s/ss/<C-V>223/gc
+"
+" HTML - Add closing tags to name tag
+" (which I forgot when I started HTML):
+" map ,,,, :g/^<a name="[a-z_]*">$/s/$/<\/a>/
+"
+" HTML - Useful external commands
+"
+"       ,p = make current file public readable {Unix only} 
+" nmap  ,p :!chmod 644 %<CR>
+"
+"       ,= = turn "===" into headline of size 1
+" nmap  ,= :%s/^===\(.*\)$/<h1>^M^I\1^M<\/h1>/<CR>
+"
+" For adding descriptions and keywords to important pages:
+" <META Name="description" Content="Write your description here">
+" <META Name="keywords"    Content="Write your keywords here">
+"
+" Colorizing Text
+"
+"      ,Cblu = colorize the selection with color "blue"
+  vmap ,Cblu "zdi<FONT COLOR="#0000FF"><C-R>z</FONT>
+"      ,Cgre = colorize the selection with color "green"
+  vmap ,Cgre "zdi<FONT COLOR="#00FF00"><C-R>z</FONT>
+"      ,Cred = colorize the selection with color "red"
+  vmap ,Cred "zdi<FONT COLOR="#FF0000"><C-R>z</FONT>
+"
+  if has ("unix") 
+    source ~/.vim/contrib/macros/html.vim
+"    source ~/.vim/contrib/HTMLmenu.vim
+"    source ~/.vim/contrib/CSSmenu.vim
+  else
+    source $VIM/.vim/contrib/macros/html.vim
+    source $VIM/.vim/contrib/HTMLmenu.vim
+    source $VIM/.vim/contrib/CSSmenu.vim
+  endif

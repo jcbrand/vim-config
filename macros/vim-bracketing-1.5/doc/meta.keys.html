@@ -1,0 +1,389 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+    <title>How to make Meta keys work</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="description" content="Meta keys are often preconfigured to be utterly useless. This document describes ways and means for turning these useless keys into something irreplacable">
+   <meta name="Author" content="Stephen Riehm">
+   <meta name="keywords" content="vim, bracketing, macros, riehm, perl, keyboard, meta, alt, key">
+</head>
+<body>
+
+<h1>How to make Meta keys work</h1>
+Last Updated: Wed 19 Jan, 2000
+<br>
+&copy; Copyleft: Stephen Riehm 1991 - 2000
+<hr>
+<p>
+<a name="warning"><b>Warning:</b></a> The information in this file is
+a result of my hard won experience. All I know with respect to
+terminal handling is what I have seen - and I haven't seen the
+back-end of all this. If you find any inacuracies in this file, please
+let me know! </p>
+
+<hr>
+
+<h2><a name="preamble">Meta Keys - Preamble</a></h2>
+<p>
+These are some of the most useful, and at the same time, most construed
+and screwed up features of the modern keyboard since computers
+appeared on the earth. The problem is that everyone has a different
+view of these babies and what they are for, and no-one can agree (or
+even bothers to ask) on a suitable standard.
+</p>
+
+<p>
+It all started with typewriters - remember them? You had a key for
+each letter of the alphabet. Typing the key on its own would produce
+the appropriate letter. Doing the same while holding down the
+<i>shift</i> key would produce the same letter, in upper case. Simple
+and effective. With the advent of computers, the keyboard took on a
+new role. Not only was it used for typing text, it was also used to
+control programs. Soon the <i>control</i> key was invented for
+controlling programs.Then there was the <i>Alt</i> key for alternate
+functions. At various points in history we then had any number of
+<i>Super</i>, <i>Meta</i>, <i>Windows</i>, <i>Apple</i>,
+<i>Menu</i>, <i>Alt-gr</i> and other keys. Each was designed to do
+something special, some came and went, others have stuck. (Like the
+<i>Caps Lock</i> key - who needs it? I personally <i>hate</i> it!
+Please, <i>someone</i>, invent a keyboard without a key that has a
+lock function!)
+</p>
+
+<p>
+So today, the normal keyboard is left with control keys and alt keys.
+Neither are intended to be used for entering text, rather, they are
+supposed to help you control programs, however, every key press has to
+generate <i>something</i> which can be passed on to the program, and
+they all do. So far, so good.
+</p>
+
+<h2>So where's the problem?</h2>
+<p>
+Most computers today use ASCII or variations thereof. This means that
+pressing the letter <i>a</i> generates the ASCII code for the letter
+<i>a</i>, in this case, 0x61 in <a href="glossary.html#hex">hexadecimal</a>. Typing a <i>shift-a</i>
+generates the code for a capital <i>a</i>, which is 0x41 - or <tt>0x61
+- 0x20</tt>. <i>control-a</i> generates the ASCII code 1, or
+<tt>0x61 - 0x60</tt>. What happens when you type <i>alt-a</i>? To answer
+this, you essentially have to ask the system you're using! Everyone
+does something different! HP for example will generate something like
+0xD3 (211 if you're still counting with your fingers and thumbs), on windows
+you might get 0xE1, and on AIX you get a whole sequence of characters
+(a so-called <i>escape-sequence</i>). What a mess!
+</p>
+
+<h3>a Meta key is <i>not</i> an Alt key!</h3>
+<p>
+When the Meta key was invented, it was intended to let the user type
+more than just the 128 characters that make up the ASCII character
+set. Character sets such as <i>latin1</i> which have characters for
+use in non-english languages, such as accents etc. generally use ASCII
+for the first 128 characters, i.e.: a common base, and then have 128
+<i>special</i> characters on the end, giving you 256 characters in
+total (in theory at least). The Meta key simply adds 128 to the code
+of the character you are typing. Mathematically, it's very simple to
+work out which key you need to press to get a given result, if you
+know the code of the character in question. What you see on the screen
+is a different matter altogether (it depends completely on the
+character set you are using to start with!). However, this
+mathematical correlation is exactly what makes Meta keys so useful, in
+contrast to Alt keys which are nothing more than chaos.
+</p>
+
+<p>
+So, why not simply use Meta keys all the time? You could still use the
+generated codes to drive menus, special functions etc, and you could
+also use them to re-create codes you've never typed before!
+Unfortunatly, the computer vendors of today, in their infinite wisdom,
+pre-configure their systems with Alt keys. Meta keys may or may not be
+supported, and are almost definitely not well documented. Such is
+life! </p>
+
+<h3>It get's stranger and stranger...</h3>
+<p>
+Back in the days when Richard Stallman was developing his emacs text
+editor, he also discovered and liked Meta keys. So much so that
+without Meta keys, it is virtually impossible to use emacs. Since
+there were computers around which didn't have Meta keys at all, he
+added the ability to type Meta characters by first typing an
+<i>escape</i> character, and then the character you want. To type a
+<tt>Meta-a</tt>, you would thus type <tt><escape> a</tt>. You have
+generated two characters, but emacs understands them as a single
+sequence.
+</p>
+
+<p>
+This isn't that bad actually, however, vi and vim use the escape key
+to <i>change modes</i> - so <tt><escape> a</tt> tell's vi to change to
+command mode, and then append text after the cursor. But this is not so
+bad, vi doesn't make use of Meta keys.
+</p>
+
+<p>
+Now there's a terminal program called <a href="glossary.html#rxvt">rxvt</a> 
+which automatically converts meta keys, to escape sequences! It's
+really bizarre! When you type a <tt>Meta-a</tt> on a system which
+understands Meta keys, rxvt turns it into <tt><escape>a</tt> before
+giving it to the programs at the other end. This throws a real spanner
+in the works, because you can map your keys to your hearts content,
+and rxvt will constantly convert them back to escape sequences. I
+haven't found a way around this yet, but until someone finds a
+solution, using the Meta-base macros in an rxvt window simply wont
+work - sorry.
+</p>
+
+
+<h2>What to do?</h2>
+<p>
+If you're using X11 on a unix system, there's a wonderful program
+which you can use to tell X11 that you would rather use Meta keys
+instead of Alt keys - the program is called: xmodmap. But first, let's
+check if you really need to use it.</p>
+<p>
+Windows doesn't seem to make a distinction, and their Alt keys seem to
+work like Meta keys - lucky break.
+</p>
+<p>
+If you're using other systems, you may not have Meta keys, but if you
+blindly use the codes that are generated, however, working out which
+key you pressed later will be a real challenge. If you comment the
+mappings you use, then you should be OK
+</p>
+
+<h2><a name="tests">How to check if I already have Meta- or Alt-keys (Unix)</a></h2>
+<p>
+You might like to try, <a href="glossary.html#cat">cat</a> with stdin
+(use <tt>ctrl-d</tt> to get back to the shell prompt):
+</p>
+
+<p>
+    <tt><pre>
+    % cat -vte
+    </pre></tt>
+</p>
+
+<p>
+then simply type a few characters with the Alt/Meta key pressed (as if
+it was a shift key), and then hit <tt>&lt;Return&gt;</tt> or
+<tt>&lt;Enter&gt;</tt>. If you see something like: </p>
+
+<p>
+    <tt><pre>
+    &middot;’“$
+    M-aM-bM-c$
+    </pre></tt>
+</p>
+
+<p>
+you're in luck! - you can use the macros straight away!
+</p>
+
+<p>
+If you see <tt>M-?</tt> style output, but the characters don't match
+up, i.e.: typing <tt>M-s</tt> gives you a <tt>M-b</tt>, then you
+should <a href="#x11_fix">jump to the next section</a>.
+</p>
+
+<p>
+If you only see <i>strange</i> characters, you'll need to use <a
+href="glossary.html#od">od</a> to see what's happening, like this
+(you'll also have to use <tt>ctrl-d</tt> to get out of od):</p>
+
+<p>
+    <tt><pre>
+    % od -x
+    </pre></tt>
+</p>
+
+<p>
+Again, type <tt>Meta-a Meta-b Meta-c</tt> and then hit
+<tt>&lt;Return&gt;</tt>, with a little luck you'll see something like
+this: </p>
+
+<p>
+    <tt><pre>
+    0000000 e1e2 e30a 0000004
+    </pre></tt>
+</p>
+
+<p>
+The output shows you the hexadecimal numbers associated with the keys
+you typed. The good thing is that you can easily check if a meta key is
+related to the same key without holding Meta. Here is the output of typing
+<tt>a &lt;M-a&gt;</tt> and then <tt>ctrl-d</tt> (the space is easy
+to see, it is the number <tt>0x20</tt>)</p>
+
+<p>
+    <tt><pre>
+    0000000 6120 e100 0000003
+    </pre></tt>
+</p>
+
+<p>
+So here you can see that typing an <tt>a</tt> gives your program the
+character <tt>0x61</tt>, typing a <tt>Meta-a</tt> gives <tt>0xe1</tt>
+which just happens to be <tt>0x61 + 0x80</tt>!!
+</p>
+
+<p>
+If you work your way through the alphabet, you should see a very simple
+pattern emerge, if not - you've got Alt keys.
+</p>
+
+<p>
+If you still can't figure out which keycodes are being sent when you
+hold the Alt/Meta keys down, you might like to give
+<a href="glossary.html#xev">xev</a> a try, if it's on your system (not on
+a lot of commercial systems unfortunately). This program pops up a
+little window, simply move the mouse into the window and start typing
+keys, you'll be able to see exactly what X11 makes of those keys as
+you type them, but the output is pretty hard to read (there are 2
+"events" for every key press, and 4 events for key presses involving
+shift, control or meta keys - nothing like being pedantic hey :-) </p>
+
+<h2><a name="x11_fix">How to turn my Alt keys into Meta Keys?</a></h2>
+
+<h3><a name="easy_fix">If you're lucky:</a></h3>
+<p>
+The first thing to do is to find out the character code of the Alt keys.
+You can do this by typing the following command:
+</p>
+
+<p>
+    <tt><pre>
+    % xmodmap -pk | grep -i alt
+    </pre></tt>
+</p>
+
+<p>
+in my case, this gives me:
+</p>
+
+<p>
+    <tt><pre>
+    keycode 68 = Alt_L
+    keycode 70 = Alt_R
+    </pre></tt>
+</p>
+
+<p>
+but your machine will very probably be different (at least the keycode
+number should be different)! All you need to do is replace the
+<tt>Alt_</tt> bit with <tt>Meta_</tt>. X11 will change the bahaviour
+of the keys depending on this definition! Now you can create a file
+called <tt>$HOME/.xmodmaps</tt>, with something like this: </p>
+
+<p>
+    <tt><pre>
+    ! Alt Keys are useless, meta keys are better
+    keycode 68 = Meta_L
+    keycode 70 = Meta_R
+    clear mod1
+    add mod1 = Meta_L Meta_R
+    </pre></tt>
+</p>
+
+<p>
+OK, now for the big moment, type the following commands, and see what
+happens: (the lines beginning with a <tt>#</tt> can be ignored)
+</p>
+
+<p>
+    <tt><pre>
+    # backup the original modmaps, just in case something goes
+    # really awry
+    xmodmap -pke &gt; $HOME/.xmodmaps.original
+    # load up the new xmodmaps
+    xmodmap &lt; $HOME/.xmodmaps
+    # start a new xterm
+    xterm &amp;
+    </pre></tt>
+</p>
+
+<p>
+and see if the <a href="#tests">tests</a> above work. If they do, you
+can try the macros out.</p>
+
+<p>
+Now all you need to do is make these changes permanent. You have to
+run the above command every time you log in, however, you can automate
+that by adding the commands to your <tt>.xsession</tt> or <tt>.xinit</tt>
+file - i.e.:
+</p>
+
+<p>
+    <tt><pre>
+    xmodmap $HOME/.xmodmaps
+    </pre></tt>
+</p>
+
+<p>
+(By the way, if you want to use the Alt key for something else, i.e.:
+a window manager key (for popping up menus, jumping between windows without
+using the mouse etc), you can - the window manager has no problems with
+it!)
+</p>
+
+<h3><a name="hard_fix">If you're unlucky:</a></h3>
+
+<p>
+Some machines need a little more coaxing. If that's the case for you,
+you might like to try my little <a href="../x11/xmodtable">xmodtable</a>
+perl script (perl 4.036 or greater!) which I've included for good
+measure. I wrote this years ago when trying to work out how best to
+map the keyboards on the old HP machines. It worked for me then, it
+seems to work now, but I haven't used it for a long time. Otherwise,
+you've essentially got to "hand map" all the meta keys, which should
+keep most people busy for at least an evening or two :-) </p>
+
+<p>
+First, back up the existing mappings - just in case you want them back
+again in a hurry. (which you probably will if anything goes wrong -
+because you wont be able to type properly without them!)
+</p>
+
+<p>
+    <tt><pre>
+    xmodmap -pke &gt; $HOME/.xmodmaps.original
+    </pre></tt>
+</p>
+
+<p>
+then run the script, like this:
+</p>
+
+<p>
+    <tt><pre>
+    ./xmodtable | sed 's/Alt_/Meta_/' &gt; $HOME/.xmodmaps
+    </pre></tt>
+</p>
+
+<p>
+and then load up the new mappings:
+</p>
+
+<p>
+    <tt><pre>
+    xmodmap $HOME/.xmodmaps
+    </pre></tt>
+</p>
+
+<p>
+if you're still a little lucky, starting a new xterm now should result
+in a "working system" (i.e.: try the tests above again).
+</p>
+
+<p>
+If not, I'm sorry, but I wasn't able to help this patient :-(
+</p>
+
+<p>
+Good Luck!
+</p>
+
+<p>
+<author>Stephen Riehm</author>
+</p>
+</body>
+</html>

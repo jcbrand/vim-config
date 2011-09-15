@@ -1,0 +1,118 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Vim">
+<TITLE>BuffOptions - Per-buffer options and mappings</TITLE>
+</HEAD>
+<BODY TEXT="#000f90" LINK="#3030ff" VLINK="#202020" >
+<SITECENTRALRECIRC002>
+<SCRIPT SRC="http://sitestatic.netscape.com/common/banner.js"></SCRIPT>
+<NOSCRIPT>
+<CENTER>
+<A HREF="http://sitestatic.netscape.com/images/recirc-bar.map" TARGET="_top"><IMG SRC="http://sitestatic.netscape.com/images/recirc-bar.gif" WIDTH=600 HEIGHT=36 BORDER=0 ISMAP></A> </CENTER>
+</NOSCRIPT>
+</SITECENTRALRECIRC002>
+
+
+<h1>BuffOptions.vim - Per-buffer options and mappings</h1>
+
+<h3>Introduction:</h3>
+<p>Some of Vim's options are set per-buffer, but not all.  This extension allows
+you to set any options and also mappings for a particular buffer or filetype.</p>
+
+<p>The idea is that you push options onto a stack (the old values are in fact
+what are pushed) with <i>PushOption( ... )</i>   and then restore the values
+with <i>RestoreOptions()</i>.
+</p>
+
+<p>An extension to the filetypes allow easy use of these macros for a specific
+filetype.  The autocommands <i>filetype</i>Enter and <i>filetype</i>Leave have
+been added.</p>
+
+
+<h3>Commands:</h3>
+<ul>
+  <li><b>PushOption(</b><i> option1|map1|menu1|abbrev1, value1, ...</i><b>)</b> - Push any number option/value pairs where:
+  <ul>
+		<li><i>option<b>n</b></i> is a vim 'option' name.</li> 
+		<li><i>map<b>n</b></i> is a map of the form '{n|v|o|i|c}map &lt;lhs&gt;' defining
+			 what kind of map is being defined (mandatory with multiple allowed)</li>
+		<li><i>abbrev<b>n</b></i> is an insert mode abbreviation - the
+		abbreviation is set by push and deleted by RestoreOptions() (as it is
+		not possible to silently check for original abbreviations).</li>
+		<li><i>menu<b>n</b></i> is a menu setting of the form '{a|n|v|o|i|c}menu
+		&lt;lhs&gt;' defining where the menu is available.  &lt;lhs&gt; can
+		include the position of the menu (eg <code>'100.100 Tools.Test'</code>) </li>
+		<li><i>value<b>n</b></i> is the value or mapping to set.</li>
+  </ul>
+  </li>
+  <li><b>RestoreOptions()</b> - Restore all options to their previous value</li>
+  <li><b>autocomd</b>  <i>filetype</i><b>Enter</b> - Called on '<b>BufEnter</b>'
+  of a file of <i>filetype</i>.</li>
+  <li><b>autocomd</b>  <i>filetype</i><b>Leave</b> - Called on '<b>BufLeave</b>'
+  of a file of <i>filetype</i>.</li>
+</ul>
+
+<h3>Example:</h3>
+<PRE>
+
+<B>aug</B> specialEdit
+<B>au</B>!
+<B>au</B> <B><FONT color=#2e8b57>FileType</FONT></B> sgmlEnter <B>call</B> PushOption(<FONT color=#0000ff>&quot;keywordprg&quot;</FONT>,<FONT color=#0000ff>&quot;/bin/htmlkey&quot;</FONT>)
+<B>au</B> <B><FONT color=#2e8b57>FileType</FONT></B> cEnter <B>call</B> PushOption(<FONT color=#0000ff>&quot;breakat&quot;</FONT>,<FONT color=#0000ff>&quot;. )&amp;|&quot;</FONT>,  <FONT color=#0000ff>&quot;complete&quot;</FONT>,<FONT color=#0000ff>&quot;.,k/usr/dict,]&quot;</FONT>,  <FONT color=#0000ff>&quot;nmap &lt;c-enter&gt;&quot;</FONT>,<FONT color=#0000ff>&quot;&lt;esc&gt;o&quot;</FONT>)
+<B>au</B> <B><FONT color=#2e8b57>FileType</FONT></B> cEnter <B>call</B> PushOption(<FONT color=#0000ff>&quot;amenu 10.100 Tools.Compile</FONT><FONT color=#0000ff>\\</FONT><FONT color=#0000ff> C&quot;</FONT>,<FONT color=#0000ff>&quot;:make&lt;cr&gt;&quot;</FONT> )
+
+<B>au</B> <B><FONT color=#2e8b57>FileType</FONT></B> sgmlLeave,cLeave  <B>call</B> RestoreOptions()
+<B>aug</B> END
+
+</PRE>
+
+<h2>Per File mappings</h2>
+<p>This is <b>not</b> really recommended, as it gives the document virus a foot in... so
+be warned.</p>
+
+<p><b>GetOptionsFromFile</b>(<i>comment</i>) is a little trick to allow mappings
+defined for a particular file within the file. The lines recognized are of the
+form:</p> 
+
+<PRE>
+<i>&lt;comment&gt;</i>vimexe: <i>&lt;arguments&gt;</i>
+</PRE>
+<p>where the arguments are the same as for PushOption.  And Comment is passed as
+an argument.</p>
+
+<p>Despite the given example, I would recomend that you map a key to parse the
+options from a file initially.</p>
+
+<p>Note that the options are cached, so once read, you would have to unlet b:VIMEXE to be able to get it to reparse.</p>
+
+<PRE>
+
+<B>aug</B> MyOpts
+<B>au</B>!
+<B>au</B> <B><FONT color=#2e8b57>FileType</FONT></B> <B><FONT color=#2e8b57>vimEnter</FONT></B> <B>call</B> GetOptionsFromFile(<FONT color=#0000ff>'&quot;'</FONT>)
+<B>au</B> <B><FONT color=#2e8b57>FileType</FONT></B> <B><FONT color=#2e8b57>vimLeave</FONT></B> <B>call</B> RestoreOptions() 
+<B>aug</B> END
+</PRE>
+
+<h2>Mappings from filetype files</h2>
+
+<h4>For when you have a file that is used for the mappings for a
+particular filetype.</h4>
+<p>All lines in the file except those starting with map and menu will get executed. 
+Any maps/menus will get inserted into a BuffOption() for the specified <i>filetype</i> 
+
+<h3>Commands:</h3>
+<ul>
+  <li><b>ReadFileTypeMap</b>(<i>filetype</i>,<i>filename</i>) - Set all map/menu entries existing in <i>filename</i> to be valid for <i>filetype</i>. Executes all other lines.</li>
+</ul>
+
+
+<h3>Example:</h3>
+<PRE>
+<B>let</B> filename <B>=</B><FONT color=#00688b>$home</FONT><B>.</B><FONT color=#0000ff>'/vim/txtsettings.vim'</FONT>
+<B>call</B> ReadFileTypeMap(<FONT color=#0000ff>'txt'</FONT>,filename)
+</PRE>
+
+<p>Last Modified: Sun Mar 26, 2000 06:30:37 Eastern Standard Time
+</BODY></HTML>

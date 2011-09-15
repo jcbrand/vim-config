@@ -1,0 +1,178 @@
+" Press _ta or double click to jump to target, <backspace> to jump back.
+"                   To update the tags file, load all .vim files, and press ,uT
+"                                                                               
+" |Readme|TODOList|
+"                                                                               
+" |array.vim|       Functions for using arrays of strings.                      
+" |arrays.vim|      Store multiple arrays in one string. (ALPHA) 
+" |arrayg.vim|      Functions that operate on global strings. (ALPHA)
+" |bookmark.vim|    Macros for bookmarking favourite files.                     
+" |buffun.vim|      Functions for buffer operations.                            
+" |buflist.vim|     Interactive buffer list.                                    
+" |comments.vim|    Macros for commenting and uncommenting code.           
+" |compare.vim|     Compare two files by synchronizing file position. (ALPHA)
+" |compile.vim|     Compile programs in various languages.
+" |convert.vim|     Convert some files from dos to unix.
+" |filebrws.vim|    File browser with file-type coloring. Unix: |filebrwsu.vim|
+" |fold.vim|        Use folding in Vim: hide and unhide fragments of text.
+" |ftpbrws.vim|     Ftp browser: edit files on a remote ftp server. (Dos)
+" |fun.vim|         Gereral purpouse functions.                                 
+" |funuse.vim|      List functions from which a given function is called.       
+" |grep.vim|        Grep a string and browse the hits. Unix: |grepu.vim|
+" |guibufwn.vim|    Buffer list menu, for use with gui menus.                   
+" |hiarg.vim|       Highlight argument list of c and vim functions.
+" |htmlfun.vim|     Functions for html editing.                                 
+" |htmlparse.vim|   A simple html parser.
+" |inline.vim|      Include files in a html file: make an 'inline function'.
+" |josfix.vim|      Quickfix for Tex/Latex.
+" |map.vim|         Mappings.
+" |ngbufwn.vim|     Buffer list menu, for use with non-gui menus.               
+" |ngmenu.vim|      Menu command for non-gui vim.                               
+" |parsehtml.vim|   Simple html parser, for embedding vim functions in html.
+" |settings.vim|    Define settings here. (Use ,s to edit, see |setup.vim|).
+" |setup.vim|       Use an interactive setup-editor.
+" |strfun.vim|      Functions for strings. (Partly obsolete).
+" |tab.vim|         Aligning text, sort of a tab key.
+" |tableaf.vim|     Generate tab leafs using ascii characters.
+" |tags.vim|        Make your own tag files.                                    
+" |txtfun.vim|      Functions for operating on text. (Obsolete)
+" |userfun.vim|     Generate syntax files for user-defined functions.           
+
+" Readme ---------------------------------------------------------- **Readme** 
+"
+" Jos van Riswick                                       Date: April 16th 1999
+" For use with vim 5.3+ for windows, dos or unix
+" For feedback email: josvanr@xs4all.nl
+" http://www.dse.nl/~josvanr http://www.xs4all.nl/~josvanr
+"
+"   This file sources .vim files that contain mappings, settings,       
+"   functions and combinations of the three. The mappings available at  
+"   vim-startup, are defined in |map.vim|. General settings are defined
+"   in |settings.vim|.
+"                                                                       
+"   Other .vim files can be sourced at will, to add functionality.
+"   Note that some files contain dependencies, so sourcing those files
+"   can cause other files to be sourced also. Most included files also
+"   define additonal mappings.
+" 
+" Todo list ------------------------------------------------------ **TODOList** 
+"                                                                               
+"   * Review menu commands, to use arrays.vim
+"   * Make filebrowser to emulate nc, or use tab leafs?
+"   * Make a :help 'file' command, displaying help for a file.
+"   * Make a command to open multiple files (exist already?) to avoid           
+"     'too many filenames' message.                                             
+"   * Modify bufferlist to accept numbers to go to buffer x
+"   * Make bufferlist last file edited appear on top
+"   * Comments: recognize max linewidth in commentbox automatically             
+"     comment one line: use commentwidth.                                       
+"   * Make a clipboard interface (show contents of registers in a normal        
+"     window.                                                                   
+"   * Make a bookmarks script with directories of bookmarks/project files
+"   * Script for drawing/removing a cadre around text                           
+
+"test area
+"so ~/vimpp.vim
+
+" Source settings and mappings
+so ~\settings.vim
+so ~\map.vim
+" Setup editor: hit ,s
+"{njj} so ~\setup.vim
+
+" Optional scripts, functions and mappings
+
+"|SETTINGS|Scripts|Optional mappings and functions|%|
+"|SETTINGS|Scripts| |%|
+"|SETTINGS|Scripts|Use a bookmarks file|if ||0|1|
+if 1
+  so ~\bookmark.vim
+end
+"|SETTINGS|Scripts|Use a buffer list|if ||0|1|
+if 0
+  so ~\buflist.vim
+end
+"|SETTINGS|Scripts|Commenting support|if ||0|1|
+if 1
+  so ~\comments.vim
+end
+"|SETTINGS|Scripts|Compiling functions|if ||0|1|
+if 0
+  so ~\compile.vim
+end
+"|SETTINGS|Scripts|Enable text folding|if ||0|1|
+if 0
+  so ~\fold.vim
+end
+"|SETTINGS|Scripts|Editing files on a remote computer|if ||0|1|
+if 0
+  so ~\ftpbrws.vim
+end
+"|SETTINGS|Scripts|Highlight arguments of current function|if ||0|1|
+if 0
+  so ~\hiarg.vim
+end
+"|SETTINGS|Scripts|Html functions|if ||0|1|
+if 0
+  so ~\htmlfun.vim
+end
+"|SETTINGS|Scripts|Html parser|if ||0|1|
+if 0
+  so ~\htmlparse.vim
+end
+"|SETTINGS|Scripts|Inline function support|if ||0|1|
+if 0
+  so ~\inline.vim
+end
+"|SETTINGS|Scripts|Quickfix for tex|if ||0|1|
+if 0
+  so ~\josfix.vim
+end
+"|SETTINGS|Scripts|Use non-gui menus|if ||0|1|
+if 0
+  so ~\ngbufwn.vim
+  so ~\ngmenu.vim
+end
+"|SETTINGS|Scripts|Online help ,?|if ||0|1|
+if 0
+  so ~\question.vim
+end
+"|SETTINGS|Scripts|Use a sort of 'tab'|if ||0|1|
+if 0
+  so ~\tab.vim
+end
+"|SETTINGS|Scripts|Support for your own tags|if ||0|1|
+if 1
+  so ~\tags.vim
+end
+"|SETTINGS|Scripts|Highlight your own functions|if ||0|1|
+if 0
+  so ~\userfun.vim
+end
+"|SETTINGS|Scripts|Function searching|if ||0|1|
+if 0
+  so ~\funuse.vim
+end
+"|SETTINGS|Scripts|Use a file browser|if ||0|1|
+if 1
+  if has("unix")
+    so ~\filebrwsu.vim
+  else
+    so ~\filebrws.vim
+  endif
+end
+"|SETTINGS|Scripts|Use an interactive grep window|if ||0|1|
+if 1
+  if has("unix")
+    so ~\grepu.vim
+  else
+    so ~\grep.vim
+  endif
+end
+" if has("gui")
+"   so ~\guibufwn.vim
+" endif
+" Personal info
+if filereadable("~\personal.vim")
+  so ~\personal.vim
+endif

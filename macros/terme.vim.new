@@ -1,0 +1,132 @@
+" ====================================================================
+" Macros to massage SvA terminology text file to htmlpp database input
+" ====================================================================
+" 
+" Maintainer: Jean Jordaan
+" Last modified: 990209 18:58:13
+" 
+" Format of original file:
+" ------------------------
+" 
+" term[*][**] <woordsoort> [ | alternatiewe ]: definisie [{redaksionele 
+"                          teks}] [{{sien skakel}}] [ || alternatiewe ] 
+" 
+" Toeligting: 
+"      * en ** as merkers vir nuut of aangepas; 
+"      < >     as merkers vir grammatikale inligting; 
+"      :       as merker tussen definiens en definiendum; 
+"      { }     as merkers vir redaksionele teks; 
+"      {{ }}   as merkers vir kruisverwysings; 
+"      |       as merker tussen alternatiewe terme. 
+"      ||      as merker tussen alternatiewe definisies. 
+"      Die gedeeltes tussen [ en ] mag geen of meer kere voorkom.
+" 
+" Voorbeelde: 
+" -----------
+" active drive**: 1. aktiewe skyf || 2. aktiewe (aan)drywer 
+" add-in** <b.nw.>: invoeg- ({soos in} invoeggrafiek) 
+" ampersand ("&"): ampersand ("&") ({drukkersterm} || {Noot 1: Afr.
+"     uitspraak, klem op} am-. || {Noot 2: Eng.} ampersand < and, per
+"     se and.  
+"
+" Format of resulting file:
+" ------------------------
+" X::term::definisie
+"
+" Note:
+" ----­
+" Lines may be quoted using .- in the first column. The quoted lines are
+" processed (mangled) in the conversion to .hdb, but the .- remains intact and
+" htmlpp ignores these lines while generating the HTML.
+"
+" Bewerking (preprocessing) vereis (in hierdie volgorde):
+" -------------------------------------------------------
+"
+" Vir alfabetiese terme, maak die hooflettervorm van die eerste letter van die
+" term die eerste veld:  X::
+"
+" Vir nie-alfabetiese terme -- met die hand: sit die afdeling waaronder die
+" definisie resorteer as eerste veld in die rekord (bv. "Nommers" of "Simbole"
+" ..)
+"
+" Die eerste : op 'n reël verander na :: (skeiding tussen definiendum en
+" definiens).
+"
+" <xxx> verander na <em class="T_woordsoort">xxx</em>
+" {{xxx}}   "     " <A HREF="#RT_xxx" class="T_kruisverwysing">xxx</A> 
+" {xxx}     "     " <em class="T_redaksioneel">xxx</em>
+" |  verander na <dt>
+" || verander na <dd>
+" 
+" Verander "&" na &amp;
+" Verander extended chars na HTML-entities.
+" Verander "< " na "&lt; "
+" 
+" ====================================================
+" 
+" TODO -- what happens when any of these are missing? Can one suppress
+" warnings and not abort execution?
+
+  function MassageTerms()
+
+  " Eerste twee velde:  x::xxx::Xxx* <x.>::
+  " Die eerste letter van die term, indien die term met 'n letter begin, en die
+  " definiens.
+  "
+  execute %s?:?::?<C-M>
+  " -- Replace the first : on every line of the buffer
+  " -- with :: to delimit fields.
+
+  execute %s?^\([0-9]*\([-A-Z a-z]\+\)[^:]*\)?\2::\1\E::\1<C-M> 
+  " 1. Make a lowercase field (\2) consisting of the first sequence of alphanumerics
+  " and hyphens, to function as anchor. 
+  " NB: Strip spaces later as this messes with htmlpp's anchor generation.
+  " (Can't start with a number: see HTML 4.0 spec, 6.2 SGML basic types ) 
+  " TODO This might have as result that similar terms will not have unique
+  " anchors. This might be counted a feature.
+  "
+  " 2. Make a field consisting of the entire term lowercased for sorting. ( \1 )
+
+  execute %s/\s*::\s*/::/g<C-M>
+  " -- strip whitespace from around delimiters.
+
+  execute %s?<\([^>]\+\)>\([^:]*\)?\2?<C-M>
+  " 3. Remove the first sequence between < > (This works because at this stage,
+  " there's either no such sequence, or exactly two, one of which is redundant.
+
+  execute %s?^\([A-Za-z]\)?\1::\1<C-M>
+  " Replace the first *letter* on every line of the buffer with itself followed
+  " by :: .
+
+  " Tweede veld (definiens): <xxx>
+  " Die woordsoort.
+  execute %s?<\([^>]\+\)>?<em class="T_woordsoort">\1</em><C-M>
+  " -- Replace the first sequence between < > ...
+
+  " Derde veld (definiendum) (hierdie vervanging *moet* voor vervanging van {xxx} plaasvind): {{xxx}} 
+  " 'n Kruisverwysing na 'n ander term.
+  execute %s?{{\([^}]\+\)}}?<A HREF="#RT_\1" class="T_kruisverwysing">\1</A>?g<C-M>
+  " -- Replace all between {{ }} globally ...
+
+  " Derde veld (definiendum):
+  " Redaksionele teks: {xxx}
+  execute %s?{\([^}]\+\)}?<em class="T_redaksioneel">\1</em>?g<C-M>
+
+  " Alternatiewe: |, ||
+  execute %s?<Bar><Bar>?<dd>?g<C-M>
+  execute %s?<Bar>?<dt>?g<C-M>
+
+  " HTML entities:
+  execute %s?&?\&amp;?g<C-M>
+  execute %s?<\s?\&lt; ?g<C-M>
+  " TODO -- fix " >" 
+  " :%s?\s>\s? \&gt; ?g<C-M>
+
+  normal ;entities
+
+    " Change filename extension, ready to write out:
+  execute file %:r.hdb<C-M>:set modified<C-M>
+
+  endfunction
+  command MassageTerms call MassageTerms()
+

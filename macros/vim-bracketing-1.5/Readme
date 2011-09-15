@@ -1,0 +1,26 @@
+	    Stephen Riehm's Bracketing macro system for Vim
+	    ===============================================
+
+(C)opyleft: Stephen Riehm 1991 - 2000
+
+The directory tree contains macros for implementing Stephen Riehm's
+bracketing system in vim. These macros should be useful for anyone who
+writes a lot of code or normal text, where brackets and quotes appear
+often.
+
+The following directories should have been included in this package:
+
+    INSTALL		installation instructions
+    doc/		complete HTML documentation
+    macros/		the macro files
+    templates/		example template files
+    x11/		X11 help for Meta Key problems
+
+For more information, please see the HTML documentation in the doc/
+directory.
+
+Good luck and happy hacking.
+
+Stephen Riehm
+stephen.riehm@bigfoot.com
+2000-01-16

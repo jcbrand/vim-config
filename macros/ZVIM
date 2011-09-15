@@ -1,0 +1,178 @@
+#!/bin/sh
+#!/usr/local/bin/expectk -file <-- this don't work reliable
+# ==================================================================
+# FILE: "/home/joze/src/zvim/zvim"
+# LAST MODIFIED: "Sat Jan 16 03:10:41 1999 (joze)"
+# (c) 1998 by Johannes Zellner
+# Johannes.Zellner@physik.uni-karlsruhe.de
+# $Id: zvim,v 1.2 1999/01/16 00:52:59 joze Exp joze $
+# ==================================================================
+# vim:syntax=tcl
+# the next line restarts using wish \
+exec wish "$0" "$@"
+
+
+# I have to set the width and height of the
+# xterm until I figure out, why the SIGWINCH
+# triggers wrong resizing.
+#
+set lines 50;   # height
+set columns 80; # width
+
+
+# need this for the interact stuff.
+# using expectk directly didn't work
+# for some reason. I'll have to check
+# this out ... (TODO)
+#
+package require Expect
+
+
+# we don't need the toplevel
+# widget to be displayed
+#
+wm withdraw .
+
+
+# COMMAND LINE STUFF:
+# the opt tcl-only-package is in the tcl8.0 distribution
+# and is used solely for parsing the command line options.
+#
+package require opt
+
+::tcl::OptProc options {
+    {-id          -string ""  "unique application name."}
+    {-line        -int     0  "line number, defaults to top of file."}
+    {-application             "internal option. (don't use!)"}
+    {-command     -string ""  "execute remote command in zvim."}
+    {args                 ""  "file name."}
+} {
+    foreach v [info locals] {
+        uplevel #0 "set \"info($v)\" \"[set $v]\""
+    }
+}
+
+if [catch {eval options $argv} msg] {
+    puts stderr $msg
+    exit
+}; # option parsing finished here.
+
+
+proc usage {} {
+    puts stderr \
+        "zvim -id <id> \[-command <vim commands>\] \[-line <line>\] \[file\]"
+    exit
+}
+
+# we should not open zvim
+# w/o an identifier.
+# TODO
+#   if no id is given, create a
+#   unique id, open a new editor
+#   under this id and return the
+#   created id.
+#
+if {$info(id) == ""} {
+    usage
+}
+
+proc remoteControl {id file line {command ""}} {
+
+    # eventually remove white space from
+    # file names and line numbers.
+    #
+    regsub "\[ \t\]*" ${file} "" file
+    regsub "\[ \t\]*" ${line} "" line
+
+    # send the edit command to vim
+    # if the filename is nonempty.
+    # I couldn't decide here, if I
+    # should add an escape in front
+    # of the :e for switching to
+    # command mode.
+    #
+    if {${file} != ""} {
+        send ${id} "exp_send -raw \":e +${line} ${file}\r\""
+    }
+
+    # send additional commands.
+    #
+    if {${command} != ""} {
+        send ${id} "exp_send -raw \"${command}\r\""
+    }
+}
+
+
+if {$info(application)} {
+
+
+    # If we're here, this is an internal
+    # invocation by another zvim.
+    # (zvim -application ...)
+    # xterm was started already from the
+    # primary zvim, so all we have to do
+    # is setting the application name and
+    # spawning the editor.
+    # TODO
+    #   handle SIG_WINCH signal.
+    #
+    tk appname $info(id)
+
+    # setting up the terminal is like normal
+    # stty. Unfortunately I didn't get how
+    # to use expects internal stty call.
+    # Therefore I just use the external stty.
+    # We switch off cooked mode here.
+    #
+    eval spawn -noecho vim
+    exec stty raw -echo
+
+
+    # vim is open, so apply the first remote control
+    #
+    remoteControl $info(id) "" "" ":set lines=$lines"
+    remoteControl $info(id) "" "" ":set columns=$columns"
+    remoteControl $info(id) $info(args) $info(line) $info(command)
+
+    trap {exec kill -SIGWINCH [pid]} SIGWINCH
+
+    # give control to the user.
+    #
+    interact
+
+} else {
+
+    # check, if an application 
+    # `id' is already open.
+    # we just loop over all names of known
+    # interps on the local display.
+    # TODO
+    #   some advanced user might want to
+    #   open zvim on a remote display.
+    #   In principle this is possible and
+    #   here is the point, where one had
+    #   to change the code.
+    #
+    foreach name [winfo interps] {
+        if {$info(id) == $name} {
+            set found yes
+            break
+        }
+    }
+
+    if {![info exists found]} {
+        # no interp with name `id'
+        # was found so lauch new window.
+        # named `id'.
+        # TODO
+        #   implement gui-vim
+        #
+        catch {unset env(LINES)}
+        exec xterm -geometry ${columns}x${lines} -e zvim -app -id $info(id) \
+            -command $info(command) -line $info(line) $info(args) &
+    } else {
+        remoteControl $info(id) $info(args) $info(line) $info(command)
+    }
+}
+
+exit; # FORTRAN STOP. STATEMENT EXECUTED

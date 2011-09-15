@@ -1,0 +1,27 @@
+	    Stephen Riehm's bracketing macro system for Vim
+	    ===============================================
+
+License:
+========
+
+    It's real simple. You can use, share, and distribute these macros
+    and associated help files, in any environment, commercial or
+    private, for whatever purpose you like. They were written by me,
+    for me, if you can make sense of them, you're welcome to use them.
+
+    All I ask is that my name and copyright remains in-tact, as the
+    original author of these files. If you make changes and then
+    distribute the modified macros, there is nothing to stop you from
+    ADDING your name to the files, but please don't DELETE the names
+    of those before you. It's only fair that the people who worked on
+    the macros should at least be recognisable, should someone actually
+    want to know who was sick enough to create this stuff.
+
+    However, I am in now way liable for any damages you may incur by
+    using these macros, nor do I guarantee that they will even work on
+    your system. They work for me, I've made them publicly available
+    because I'm a nice guy :-)
+
+    This license is way too official for a bunch of macros :-)
+
+Stephen Riehm 29 July 1998, Munich, Germany

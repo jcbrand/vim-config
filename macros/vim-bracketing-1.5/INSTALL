@@ -1,0 +1,48 @@
+Installation Instructions
+=========================
+
+Unix:
+-----
+
+    ensure that vim-5.5 or better is installed
+
+    cp macros/bracketing.base.vim ~/.vim.bracketing.base
+
+    cp macros/bracketing.meta.vim ~/.vim.bracketing
+    or
+    cp macros/bracketing.no-meta.vim ~/.vim.bracketing
+
+    edit .vim.bracketing and change the "source" line to
+	source ~/.vim.bracketing.base
+
+    edit your .vimrc and add the line:
+	source ~/.vim.bracketing
+
+Windows:
+--------
+
+    ensure that vim-5.5 or better is installed
+	set the environment variable "VIM" to the directory where vim
+	was installed
+	set the environment variable "HOME" to something useful: ie:
+	    c:\my_stuff
+
+    copy macros/bracketing.base.vim to _vim.bracketing.base in your
+	HOME directory
+
+    copy macros/bracketing.meta.vim to _vim.bracketing
+    or
+    copy macros/bracketing.no-meta.vim _vim.bracketing
+    in your HOME directory
+
+    edit _vim.bracketing and change the "source" line to
+
+	source c:\my_stuff\_vim.bracketing.base
+
+    (ie: the full path to the _vim.bracketing.base file)
+
+    edit your .vimrc and add the line:
+
+	source c:\my_stuff\_vim.bracketing
+
+    (ie: the full path to the _vim.bracketing file)

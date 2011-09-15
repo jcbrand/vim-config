@@ -1,0 +1,237 @@
+"	Stephen Riehm's Braketing macros for vim
+"
+"	Last Change: 29.07.98
+"	(C)opyright: Stephen Riehm 1991 - 1998
+"
+version 5.0
+
+"
+"   Hack by Jean, 980918, from Michael Geddes <mgeddes@cybergraphic.com.au>:
+"
+"-  vmap <M-">   c"<C-R>""<ESC>
+"+  vmap <m-"> "yc"<c-r>y"<esc>
+"              ^^
+"   Motivation: The problem is that for some reason, the " register is broken
+"   .. when you do ':display' it shows one shows, but when you paste it, it shows
+"   another!
+"
+"   jean: Unfortunately, still broken!
+"
+
+" Settings
+" ========
+"
+"	These settings are required for the macros to work.
+"	Essentially all you need is to tell vim not to be vi compatible,
+"	and to do some kind of groovy autoindenting.
+"
+"	indent to previous line's indentation automatically
+set autoindent
+"
+"	turn on automatic code indenting
+" set cindent
+"
+"	reformat when the following special keys have been typed
+" set cinkeys=0{,0},!^F,o,O,e,*<Return>,0#
+"	how to format C code
+"		> normal indent (1 shiftwidth)
+"		e indent for braces starting at the end of a line
+"		n indent after a keyword when NOT in braces (don't do
+"		    this, it's non-standard)
+"		f indent of the first opening brace (braces that are
+"		    not in other braces)
+"		{ indent of opening brace for braces in other braces
+"		} indent of closing brace (relative to matching open brace)
+"		^ indent inside braces (relative to current indent)
+"		: indent of case labels relative to the switch statement
+"		= indent after a case label
+"		p indent of K&R style paramter declarations
+"		t indent for a function's type declaration
+"		+ indentation of a continuation line
+"		c indentation of a comment line
+"		( indentation when in an unclosed () block
+"		) how far to look for an unclosed bracket (5 lines)
+"		* how far to look for an unclosed comment (15 lines)
+"
+" This is the style I use at work - change it if you want another style
+" set cinoptions=>s,e0,n0,}0,^0,:s,=s,ps,ts,(2s,)5,*15,+s,f0,{0
+"
+" trust me :-)
+" since the indenting is handle by the macros, you
+" don't need vim to jump and and double the indenting!
+" set cinwords=
+"
+"	status line is exactly that, one line.
+" set comments=sr:/*,mb:*,el:*/,://
+"
+"	tell vim not to do screwy things when searching (This is the
+"	default value, without c)
+set cpoptions=BeFs
+"
+" Jump point macros
+" =================
+"
+"	jump to next marker («»)
+map <M-!>jump<M-!> /<M-+>.*<M-;>/<C-M>a:"<ESC>h"myt<M-;>h@m<C-M>cf<M-;>
+imap <M-!>jump<M-!> <ESC><M-!>jump<M-!>
+"
+" <DEL>	mapped to something easy to hit
+map <S-Del> <M-!>jump<M-!>
+imap <S-Del> <M-!>jump<M-!>
+
+"njj <DEL>	mapping for telnet sessions that don't see <s-del> .. :( hack .. 
+map _<< <M-!>jump<M-!>
+imap _<< <M-!>jump<M-!>
+
+"
+"	Quoting/bracketting macros, M-x -> xx«» with insert b/w xx
+"
+"	Note: because » is used as a macro by itself, ^V^V is needed
+"	to prevent recursive calling of the » macro.
+"
+"   M-"
+imap <M-"> ""<M-+><C-V><M-;><ESC>F"i
+"   M-'
+imap <M-'> ''<M-+><C-V><M-;><ESC>F'i
+"   M-(
+imap <M-(> ()<M-+><C-V><M-;><ESC>F)i
+"   M-)
+imap <M-)> (  )<M-+><C-V><M-;><ESC>F i
+"   M-<
+imap <M-<> <><M-+><C-V><M-;><ESC>F>i
+"   M->
+imap <M->> <  ><M-+><C-V><M-;><ESC>F i
+"   M-[
+imap <M-[> []<M-+><C-V><M-;><ESC>F]i
+"   M-]
+imap <M-]> [  ]<M-+><C-V><M-;><ESC>F i
+"   M-`
+imap <M-`> ``<M-+><C-V><M-;><ESC>F`i
+"   M-{
+imap <M-{> {}<M-+><C-V><M-;><ESC>F}i
+"   M-}
+imap <M-}> <ESC>o{<C-M><M-+><C-V><M-;><C-M>}<M-+><C-V><M-;><ESC>^%<M-!>jump<M-!>
+"   M-<space> (carefull, spaces are important in this one!)
+imap   .  <ESC>F.xa
+" M-fM-b   Nroff bold
+imap <M-f><M-b> \fB\fP<M-+><C-V><M-;><ESC>F\i
+" M-fM-i   Nroff italic
+imap <M-f><M-i> \fI\fP<M-+><C-V><M-;><ESC>F\i
+"
+" M-<DEL> create a new marker (for building forms etc)
+imap <M-DEL> <M-+><C-V><M-;><ESC>i
+imap ÿ <M-+><C-V><M-;><ESC>i
+
+" "After the Fact" quoting
+" ========================
+"
+"	use visual mode to select what needs to be quoted, then use
+"	these mappings. They generally follow the form:
+"		M-x	- quotes useing x, no additional spaces
+"		M-<right bracket> - quotes using x, but with padding
+"
+"  M-"
+vmap <M-"> "yc"<C-R>y"<ESC>
+"  M-'
+vmap <M-'> "yc'<C-R>y'<ESC>
+"  M-$ for variables
+vmap <M-$> "yc${<C-R>y}<ESC>
+"  M-(
+vmap <M-(> "yc(<C-R>y)<ESC>
+"  M-)
+vmap <M-)> "yc( <C-R>y )<ESC>
+"  M-<
+vmap <M-<> "yc<<C-R>y><ESC>
+"  M->
+vmap <M->> "yc< <C-R>y ><ESC>
+"  M-[
+vmap <M-[> "yc[<C-R>y]<ESC>
+"  M-]
+vmap <M-]> "yc[ <C-R>y ]<ESC>
+"  M-`
+vmap <M-`> "yc`<C-R>y`<ESC>
+"  M-{
+vmap <M-{> "yc{<C-R>y}<ESC>
+"  M-}	indent a block, and surround it with braces (using "ycindent to
+"	format according to "ycurrent rules
+vmap <M-}> >']mz'[O{<ESC>'zo}<ESC>^
+"  M-<space>
+vmap   "yc <C-R>y <ESC>
+"  M-*
+vmap <M-*> "yc*<C-R>y*<ESC>
+"  M-_
+vmap <M-_> "yc_<C-R>y_<ESC>
+"  M->	indent mail
+vmap <M->> :s/^./> &/<C-M>
+"  M-#	comment marked lines
+vmap <M-#> :s/^/# /<C-M>
+vmap <M-/><M-/> :s,^,// ,<C-M>
+vmap <M-/><M-8> :s,.*,/* &	*/,<C-M>
+"  M-3	uncomment marked lines (strip first few chars)
+"	doesn't work for /* comments */
+vmap <M-3> :s,^[ <TAB>]*[#>/]\+[ <TAB>]\=,,<C-M>
+"
+"  M-#	comment marked lines
+map <M-#> :s/^/# /<C-M>j
+map <M-/><M-/> :s,^,// ,<C-M>j
+map <M-/><M-8> :s,.*,/* &<TAB>*/,<C-M>j
+"  M-3	uncomment marked lines (strip first few chars)
+"	doesn't work for /* comments */
+map <M-3> :s,^[ <TAB>]*[#>/]\+[ <TAB>]\=,,<C-M>j
+"
+" M-fM-b Set highlighted text as nroff bold
+vmap <M-f><M-b> c\fB<C-R>"\fP<ESC>
+"
+" M-fM-i Set highlighted text as nroff itallic
+vmap <M-f><M-i> c\fI<C-R>"\fP<ESC>
+"
+" M-/	These macros can be used to search for the string currently
+"	highlighted
+" vmap <M-/><M-/> y/<C-R>"<C-M>
+" vmap <M-?><M-?> y?<C-R>"<C-M>
+
+" Coding stuff
+" ============
+"
+"  M-;	an empty function call
+imap <M-;> <M-(><M-!>jump<M-!>;<M-+><C-V><M-;><ESC>F)i
+"
+"  <-:	a function call with args
+imap <M-:> <M-)><M-!>jump<M-!>;<M-+><C-V><M-;><ESC>F i
+"
+"  M-\	function/if/while/etc block def
+imap <M-\> <M-)><M-+><C-V><M-;><M-!>jump<M-!><M-}><M-+><C-V><M-;><ESC>0?<M-+><C-M>cf<M-;>
+"
+" M-$      create brackets for a variable
+imap <M-$> $<M-{>
+" M-#		turn the current line into a shell comment
+imap <M-#> <ESC>0i# <ESC>A
+" M-/ M-/	turn the current line into a C++ comment
+imap <M-/><M-/> <ESC>0i// <ESC>A
+" M-/ M-*		turn the current line into a C comment
+imap <M-/><M-8> <ESC>0i/* <ESC>A<TAB>*/<ESC>F<TAB>i
+" M-3		remove the current comment (doesn't work for C comments)
+vmap <M-3> :s,^[ <TAB>]*[#>/]\+[ <TAB>]\=,,<C-M>
+
+
+"
+" HTML Macros
+" ===========
+"
+" M-h	turn the current word into an upper case HTML command pair, ie <B></B>
+imap <M-h> .<ESC>vbU"hdws<<C-R>h></<C-R>h><M-+><C-V><M-;><ESC>F<i
+"
+"  M-h	after the fact HTML command pair
+map <M-h> "yc<M-+><<M-+><C-V><M-;>><C-R>y</<M-+><C-V><M-;>><ESC>?<M-+><?<C-M>x<M-!>jump<M-!>
+"
+" M-r	set up a HREF
+imap <M-r> <M-+><A HREF="<M-+><C-V><M-;>"><M-+><C-V><M-;></A><M-+><C-V><M-;><ESC>?<M-+><?<C-M>x<M-!>jump<M-!>
+"
+" M-r	after the fact HREF
+vmap <M-r> "yc<M-+><A HREF="<M-+><C-V><M-;>"><C-R>y</A><M-+><C-V><M-;><ESC>?<M-+><?<C-M>x<M-!>jump<M-!>
+"
+" M-n	set a HREF name (tag)
+imap <M-n> <M-+><A NAME="<M-+><C-V><M-;>"><M-+><C-V><M-;></A><M-+><C-V><M-;><ESC>?<M-+><?<C-M>x<M-!>jump<M-!>
+"
+" M-n	after the fact HREF name (tag)
+vmap <M-n> "yc<M-+><A NAME="<M-+><C-V><M-;>"><C-R>y</A><M-+><C-V><M-;><ESC>?<M-+><?<C-M>x<M-!>jump<M-!>

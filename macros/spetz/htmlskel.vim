@@ -1,0 +1,12 @@
+1insert
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+.
+$append
+</body>
+</html>
+.
+$-2

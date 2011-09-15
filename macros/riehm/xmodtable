@@ -1,0 +1,136 @@
+#!/usr/local/bin/perl
+#
+# xmodtable: create a xmodmap file for any kind of keyboard.
+#	The modmaps created by this script follow a mathematically logical
+#	order. ie: Shifted characters always gives the shifted version
+#	the character, and all meta characters are the same as their
+#	non-meta equivalents, but with the 8th bit set. This makes it
+#	possible to work out the keystroke used to create a 8bit character,
+#	which is not easily possible using the default mappings from HP
+#
+# Usage:
+#	xmodtable > mymaps
+#	xmodmap -pke > myoldmaps	#backup backup backup
+#	xmodmap mymaps
+#
+
+foreach( <DATA> )
+    {
+    chop;
+    /\S+/;
+    $map{$&} = $_;
+    }
+
+foreach( `xmodmap -pke` )
+    {
+    ( $junk1, $code, $junk2, $symbol, $junk3 ) = split( /\s+/ );
+    $symbol =~ s/^[a-z]$/\U$&/;
+    printf( "keycode %3d = %s\n", $code, $map{$symbol} );
+    }
+
+__END__
+0 parenright degree copyright
+1 exclam plusminus exclamdown
+2 at twosuperior Agrave
+3 numbersign threesuperior sterling
+4 dollar acute currency
+5 percent mu yen
+6 asciicircum paragraph THORN
+7 ampersand periodcentered brokenbar
+8 asterisk cedilla ordfeminine
+9 parenleft onesuperior diaeresis
+A NoSymbol Aacute
+B NoSymbol Acircumflex
+BackSpace NoSymbol 0x0088
+C NoSymbol Atilde
+Caps_Lock
+Control_L
+Control_R
+D NoSymbol Adiaeresis
+Delete
+Down 0x85
+E NoSymbol Aring
+End
+Escape
+F NoSymbol AE
+F1
+F10 KP_F2
+F11 KP_F3
+F12 KP_F4
+F2
+F3
+F4
+F5
+F6
+F7
+F8
+F9 KP_F1
+G NoSymbol Ccedilla
+H NoSymbol Egrave
+Home
+I NoSymbol Eacute
+Insert
+J NoSymbol Ecircumflex
+K NoSymbol Ediaeresis
+KP_0 Insert
+KP_1 End
+KP_2 Down
+KP_3 Next
+KP_4 Left
+KP_5
+KP_6 Right
+KP_7 Home
+KP_8 Up
+KP_9 Prior
+KP_Add
+KP_Decimal Delete
+KP_Divide
+KP_Enter
+KP_Multiply
+KP_Subtract
+L NoSymbol Igrave
+Left 0x86
+M NoSymbol Iacute
+Alt_L
+Alt_R
+Meta_L
+Meta_R
+Mode_switch NoSymbol NoSymbol Mode_switch
+N NoSymbol Icircumflex
+Next
+Num_Lock
+O NoSymbol Idiaeresis
+P NoSymbol ETH
+Pause Break
+Print
+Prior
+Q NoSymbol Ntilde
+R NoSymbol Ograve
+Return
+Right 0x87
+S NoSymbol Oacute
+Scroll_Lock
+Select
+Shift_L
+Shift_R
+T NoSymbol Ocircumflex
+Tab hpBackTab 0x89
+U NoSymbol Otilde
+Up 0x84
+V NoSymbol Odiaeresis
+W NoSymbol multiply division
+X NoSymbol Ooblique
+Y NoSymbol Ugrave
+Z NoSymbol Uacute
+apostrophe quotedbl section cent
+backslash bar Udiaeresis udiaeresis
+bracketleft braceleft Ucircumflex ucircumflex
+bracketright braceright Yacute yacute
+comma less notsign onequarter
+equal plus onehalf guillemotleft
+grave asciitilde agrave thorn
+minus underscore hyphen ssharp
+period greater registered threequarters
+semicolon colon guillemotright masculine
+slash question macron questiondown
+space NoSymbol nobreakspace

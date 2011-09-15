@@ -1,0 +1,656 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <title>Stephen Riehm's bracketing system</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="description" content="A useful set of macros for automating the use and formatting of brackets. The macros are generic enough for everyday use in text, programs, HTML etc.">
+   <meta name="Author" content="Stephen Riehm">
+   <meta name="keywords" content="vim, bracketing, macros, riehm, generic, programming, perl, script">
+</head>
+<body>
+
+<h1>Stephen Riehm's bracketing system</h1>
+Last Updated: Thu 20 Jan, 2000
+<br>
+&copy; Copyleft: Stephen Riehm, 1991 - 2000
+<hr>
+
+<h2>Proposition:</h2>
+<p>
+Whenever you type a bracket or quote, you normally want the matching
+bracket or quote as well, and if you forget it, then you're going to
+have problems later.
+</p>
+
+<h2>Proposed Solution:</h2>
+<p>
+Whenever you type a bracket or quote, have your editor type the
+matching one for you.
+</p>
+<p>
+<b>Note:</b> mapping these macros directly to the characters themselves
+is a <i>bad idea<sup>tm</sup></i> - use macro names which aren't going
+to be confused with normal text. (Think about what happens when you
+<i>cut'n'paste</i>, or when you actually want to type a single bracket.
+i.e.: <i><tt>if( x == "(" )</tt></i> )
+</p>
+
+<hr>
+
+<h2>The system:</h2>
+<p>
+The system essentially has two parts:
+</p>
+<dl>
+    <dl>
+    <dt><b>Bracket Insertion Macros</b></dt>
+
+    <dd>
+    Macros for inserting matching pairs of brackets. These macros also
+    take care of any formatting, indenting etc, and set a jump point
+    just after the inserted text.
+    </dd>
+
+    <p>
+    <dt><b>The Jump Point</b></dt>
+
+    <dd>
+    A simple text marker left just after each inserted pair of brackets etc.
+    to help automate cursor positioning after you have filled the text between
+    the brackets. One macro simply positions the cursor at the next jump point.
+    Sounds trivial, and it is, but it saves a lot of key strokes.
+    </dd>
+    </dl>
+</dl>
+<p>
+Both parts are needed for this system to work.
+</p>
+
+<h2><a name="macros">The macros:</a></h2>
+<p>
+<b>Note:</b> All macros presented here have been developed for
+<a href="http://www.vim.org/">vim</a>, however, there is no reason why
+they shouldn't be applicable to any other editor you happen to like.
+The creation of suitable macros for your favourite editor<sup>tm</sup>
+is left as an excercise for the reader.
+</p>
+<p>
+I have found the <a href="meta.keys.html">Meta/Alt Key</a> to be very
+useful, as vi doesn't use them by default. The macro files included
+also include a version of the macros which use double entry to trigger
+the macros for people stuck on systems which don't support Meta keys
+properly.
+</p>
+<p>
+So here's an overview of the macros provided:
+</p>
+
+<table BORDER=2 CELLPADDING=5 >
+<tr>
+    <th>Macro <tt>with Meta keys</tt></th>
+    <th>Macro <tt>without Meta keys</tt></th>
+    <th>Description</th>
+    <th>Example</th>
+</tr>
+
+<tr>
+    <td><b>DEL</b></td>
+    <td><b>DEL</b></td>
+    <td>Jump to next jump point marker</td>
+    <td>(the marker is replaced by the cursor)</td>
+</tr>
+
+<tr>
+    <td><b>M-'</b></td>
+    <td><b>''</b></td>
+    <td>Single quotes</td>
+    <td><b>'</b><tt>text</tt><b>'</b></td>
+</tr>
+
+<tr>
+    <td><b>M-"</b></td>
+    <td><b>""</b></td>
+    <td>Double quotes</td>
+    <td><b>"</b><tt>text</tt><b>"</b></td>
+</tr>
+
+<tr>
+    <td><b>M-`</b></td>
+    <td><b>``</b></td>
+    <td>Back-quotes</td>
+    <td><b>`</b><tt>text</tt><b>`</b></td>
+</tr>
+
+<tr>
+    <td><b>M-(</b></td>
+    <td><b>((</b></td>
+    <td>Braces, no padding</td>
+    <td><b>(</b><tt>text</tt><b>)</b></td>
+</tr>
+
+<tr>
+    <td><b>M-)</b></td>
+    <td><b>))</b></td>
+    <td>Braces, with padding</td>
+    <td><b>( </b><tt>text</tt><b> )</b></td>
+</tr>
+
+<tr>
+    <td><b>M-[</b></td>
+    <td><b>[[</b></td>
+    <td>Brackets, no padding</td>
+    <td><b>[</b><tt>text</tt><b>]</b></td>
+</tr>
+
+<tr>
+    <td><b>M-]</b></td>
+    <td><b>]]</b></td>
+    <td>Brackets, with padding</td>
+    <td><b>[ </b><tt>text</tt><b> ]</b></td>
+</tr>
+
+<tr>
+    <td><b>M-{</b></td>
+    <td><b>{{</b></td>
+    <td>Curlies, no padding</td>
+    <td><b>{</b><tt>text</tt><b>}</b></td>
+</tr>
+
+<tr>
+    <td><b>M-}</b></td>
+    <td><b>}}</b></td>
+    <td>A new block, formatted <i>correctly</i></td>
+    <td><pre>
+    <b>{</b>
+    text
+    <b>}</b></pre>
+    </td>
+</tr>
+
+<tr>
+    <td><b>M-&lt;</b></td>
+    <td><b>&lt;&lt;</b></td>
+    <td>Angle brackets, no padding</td>
+    <td><b>&lt;</b><tt>text</tt><b>></b></td>
+</tr>
+
+<tr>
+    <td><b>M-></b></td>
+    <td><b>>></b></td>
+    <td>Angle brackets, with padding</td>
+    <td><b>&lt; </b><tt>text</tt><b> ></b></td>
+</tr>
+
+<tr>
+    <td><b>M-;</b></td>
+    <td><i>not provided</i></td>
+    <td>shortcut M-) with trailing ;</td>
+    <td><b>( </b><tt>text</tt><b> );</b></td>
+</tr>
+
+<tr>
+    <td><b>M-\</b></td>
+    <td><b>)}</b></td>
+    <td>short cut for <b>M-)M-}</b></td>
+    <td><pre><b>(</b> text1 <b>)</b>
+    <b>{</b>
+    text2
+    <b>}</b></pre>
+    </td>
+</tr>
+
+<tr>
+    <td><b>M-h</b></td>
+    <td><i>not provided</i></td>
+    <td>
+    use the last typed word as a HTML tag, in this example,
+    <tt>blockquote</tt><b>M-h</b> was typed.
+    </td>
+    <td>
+    <b>&lt;BLOCKQUOTE></b><tt>text</tt><b>&lt;/BLOCKQUOTE></b>
+    </td>
+</tr>
+
+<tr>
+    <td><b>M-r</b></td>
+    <td><i>not provided</i></td>
+    <td>Enter a URL tag</td>
+    <td>
+    <b>&lt;A HREF="</b><tt>URL</tt><b>"></b><tt>text</tt><b>&lt;/A></b>
+    </td>
+</tr>
+
+<tr>
+    <td><b>M-n</b></td>
+    <td><i>not provided</i></td>
+    <td>
+    Set a HTML named index, for use with <tt>&lt;A HREF="#name">&lt;/A></tt>
+    </td>
+    <td>
+    <b>&lt;A NAME="</b><tt>NAME</tt><b>"&gt;</b><tt>text</tt><b>&lt;/A&gt;</b>
+    </td>
+</tr>
+
+<tr>
+    <td><b>M-fM-b</b></td>
+    <td><i>not provided</i></td>
+    <td>NROFF macro for Bold text</td>
+    <td><b>\fB</b><tt>text</tt><b>\fP</b></td>
+</tr>
+
+<tr>
+    <td><b>M-fM-i</b></td>
+    <td><i>not provided</i></td>
+    <td>NROFF macro for Italic text</td>
+    <td><b>\fI</b><tt>text</tt><b>\fP</b></td>
+</tr>
+</table>
+
+<h2><a name="examples">So what have you gained?</a></h2>
+<p>
+The real advantage comes when you are writing code, with lots of nested
+brackets. To give you a better idea, here's a quick demonstration.
+Here's a step-by-step example of how to use the macros to enter a
+typical <tt>if</tt> statement in a perl script: (the cursor position
+is shown with an <b>_</b> (underscore))
+</p>
+
+<table BORDER=2 CELLPADDING=5 >
+
+<tr>
+    <th><b>You type:</b></th>
+    <th><b>You get:</b></th>
+</tr>
+
+<tr>
+    <td>
+    if <b>&lt;M-\></b>
+    </td>
+
+    <td>
+    if ( _ )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;<b>&laquo;&raquo;</b>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}<b>&laquo;&raquo;</b>
+    </td>
+</tr>
+
+<tr>
+    <td>
+    -f <b>&lt;M-"></b>
+    </td>
+
+    <td>
+    if ( -f "_"<b>&laquo;&raquo;</b> )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;<b>&laquo;&raquo;</b>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}<b>&laquo;&raquo;</b>
+    </td>
+</tr>
+
+<tr>
+    <td>
+    $<b>&lt;M-{></b>
+    </td>
+
+    <td>
+    if ( -f "${_}<b>&laquo;&raquo;</b>"<b>&laquo;&raquo;</b> )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;<b>&laquo;&raquo;</b>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}<b>&laquo;&raquo;</b>
+    </td>
+</tr>
+
+<tr>
+    <td>
+    file<b>&lt;Del&gt;&lt;Del&gt;</b>
+    </td>
+
+    <td>
+    if ( -f "${file}"_ )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;<b>&laquo;&raquo;</b>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}<b>&laquo;&raquo;</b>
+    </td>
+</tr>
+
+<tr>
+    <td>
+    &nbsp;&amp;&amp; <b>&lt;M-)&gt;</b>
+    </td>
+
+    <td>
+    if ( -f "${file}" && ( _ )<b>&laquo;&raquo;</b> )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;<b>&laquo;&raquo;</b>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}<b>&laquo;&raquo;</b>
+    </td>
+</tr>
+
+<tr>
+    <td>
+    $input = <b>&lt;M-<&gt;</b>
+    </td>
+
+    <td>
+    if ( -f "${file}" && ( $input = &lt;_&gt;<b>&laquo;&raquo;</b> )<b>&laquo;&raquo;</b> )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;<b>&laquo;&raquo;</b>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}<b>&laquo;&raquo;</b>
+    </td>
+</tr>
+
+<tr>
+    <td>
+    STDIN<b>&lt;Del&gt;&lt;Del&gt;&lt;Del&gt;</b>
+    </td>
+
+    <td>
+    if ( -f "${file}" && ( $input = &lt;STDIN&gt; ) )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;_
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}<b>&laquo;&raquo;</b>
+    </td>
+</tr>
+
+<tr>
+    <td>
+    print<b>&lt;M-;&gt;&lt;M-"&gt;&lt;M-[&gt;</b>
+    </td>
+
+    <td>
+    if ( -f "${file}" && ( $input = &lt;STDIN&gt; ) )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;print( "[_]<b>&laquo;&raquo;</b>"<b>&laquo;&raquo;</b> );<b>&laquo;&raquo;</b>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}<b>&laquo;&raquo;</b>
+    </td>
+</tr>
+
+<tr>
+    <td>
+    TRACE<b>&lt;Del&gt;</b>
+    </td>
+
+    <td>
+    if ( -f "${file}" && ( $input = &lt;STDIN&gt; ) )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;print( "[TRACE]_"<b>&laquo;&raquo;</b> );<b>&laquo;&raquo;</b>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}<b>&laquo;&raquo;</b>
+    </td>
+</tr>
+
+<tr>
+    <td>
+    &nbsp;Updating $<b>&lt;M-{&gt;</b>file<b>&lt;Del&gt</b>\n<b>&lt;Del&gt;&lt;Del&gt;</b>
+    </td>
+
+    <td>
+    if ( -f "${file}" && ( $input = &lt;STDIN&gt; ) )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;print( "[TRACE] Updating ${file}\n" );_
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}<b>&laquo;&raquo;</b>
+    </td>
+</tr>
+
+<tr>
+    <td>
+    <b>&lt;Enter&gt;</b>
+    <br>update<b>&lt;M-;&gt;</b>$file, $input<b>&lt;Del&gt;&lt;Del&gt;</b>
+    </td>
+
+    <td>
+    if ( -f "${file}" && ( $input = &lt;STDIN&gt; ) )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;print( "[TRACE] Updating ${file}\n" );
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;update( $file, $input );
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}_
+    </td>
+</tr>
+
+</table>
+
+<p>
+So what has been simplified? First, there was never a need to check
+the bracketing! Secondly, there was no need to do any formatting - the
+cursor keys were never used! Keystrokes were also saved. (126 reduced
+to 95 - not counting shift and meta keys).
+</p>
+<p>
+But there's more! What if you only want the trace output if a trace
+variable is set? Try this! (only the bold characters are a part of the
+macro set - the rest are normal vim commands)
+</p>
+
+<table BORDER=2 CELLPADDING=5 >
+
+<tr>
+    <th><b>You type:</b></th>
+    <th><b>You get:</b></th>
+</tr>
+
+<tr>
+    <td>/trace&lt;Enter&gt;</td>
+    <td>
+    if ( -f "${file}" && ( $input = &lt;STDIN&gt; ) )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;print( "[_TRACE] Updating ${file}\n" );
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;update( $file, $input );
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}
+    </td>
+</tr>
+
+<tr>
+    <td>V<b>&lt;M-\&gt;</b></td>
+    <td>
+    if ( -f "${file}" && ( $input = &lt;STDIN&gt; ) )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;_( <b>&laquo;&raquo;</b> )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print( "[TRACE] Updating ${file}\n" );
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;update( $file, $input );
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}
+    </td>
+</tr>
+
+<tr>
+    <td>if<b>&lt;Del&gt;</b>$trace&lt;Esc&gt;</td>
+    <td>
+    if ( -f "${file}" && ( $input = &lt;STDIN&gt; ) )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;{
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;if( $trace_ )
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;print( "[TRACE] Updating ${file}\n" );
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;update( $file, $input );
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;}
+    </td>
+</tr>
+
+</table>
+
+<p>
+I could make it more complicated if you like :-)
+</p>
+
+<h2>"Are they <i>Modeless</i>?", Did I hear you ask?</h2>
+
+<p>
+Well, almost :-)
+</p>
+<p>
+Most of these macros are defined for insert mode and visual mode. For
+example: you can insert a new set of quotes when in insert mode by using
+the <b>&lt;M-"&gt;</b> macro, or you can quote <i>after the fact</i> by selecting
+the words you want quoted in visual mode, and then hitting <b>&lt;M-"&gt;</b>.
+(it even works over multiple lines!)
+</p>
+<p>
+The <b>&lt;Del&gt;</b> macro can be used in command mode or in insert mode,
+either way, you jump to the next marker and are left in insert mode. You
+can bounce on the <b>&lt;Del&gt;</b> key to clean up any left over markers
+- when it beeps (leaving you in command mode!) there are no more markers
+in the file (do you have <tt>wrapscan</tt> turned on too? If not - you might need
+to go to the top of the file and try again to be certain)
+</p>
+
+<h1><a name="html">A quick HTML example</a></h1>
+<p>
+In HTML things are a little different. For convenience, the
+<b>&lt;M-h&gt;</b> macro uses the current word as the html tag. Thus,
+to type a new heading, you might try:
+<tt>h1<b>&lt;M-h&gt;</b>heading<b>&lt;Del&gt;</b></tt>.
+</p>
+
+<h2>But there are problems!</h2>
+<p>
+Sadly! <i>After the fact</i> html<i>ifying</i> can't (at the moment) prompt
+you for a html tag to put at the start and end of the highlighted text,
+so you have to do it yourself. Yet another <i>what you type isn't what
+you get</i> example, lets have some fun with a disfunctional line:
+</p>
+<ul>
+disfunctional
+</ul>
+<p>
+now highlight <b>fun</b> with vim's
+visual mode commands, and then hit <b>&lt;M-h&gt;</b>, you get:
+(cursor position is shown by the <b>_</b> (underscore))
+</p>
+<ul>
+dis&lt;<b>_</b>&gt;fun&lt;/&laquo;&raquo;&gt;ctional
+</ul>
+<p>
+now all you have to do is fill in the tag at the start and the end,
+the following keystrokes will now turn the fun on strong:
+<ul>
+You type: strong&lt;Del&gt;strong&lt;Esc&gt;
+<br>You get: dis&lt;strong&gt;fun&lt;/strong&gt;ctional
+</ul>
+or, as html would show it:
+<ul>
+dis<b>fun</b>ctional
+</ul>
+
+<h1>Making your own Forms</h1>
+<p>
+To create your own forms, use the macro <b>&lt;M-DEL&gt;</b> to insert a new
+jump marker. You can type text between the markers, and this text will
+be printed on the command line when the user jumps to that marker. ie:
+<pre><tt>
+     Name:       <b>&laquo;user's name&raquo;
+</b>     Address:    <b>&laquo;user's address&raquo;
+</b>     Account:    <b>&laquo;user's bank account number :-)&raquo;</b>
+</tt></pre>
+<p>
+For further examples of forms, see the <a href="../templates/">../templates/</a>
+directory.
+</p>
+
+<p>
+<b>Tip:</b> If you already have a common set of templates, try highlighting the
+parts you would normally replace and then using <b>&lt;M-Del&gt;</b> -
+the text you highlighted automatically appears between the markers.
+</p>
+
+<h2><a name="installation">The next step - installation</a></h2>
+<p>
+Installation of the macros is quite simple - really :-) Just follow
+these easy steps:
+</p>
+<ol>
+    <li>Descide which macros you want:
+	<ul>
+	    <dl>
+		<p>
+		<dt><b>Unix</b></dt>
+		<dd>Find out if you can use Meta keys. If you can,
+		    you'll want <tt><b>bracketing.meta.vim</b></tt>,
+		    otherwise you'll either want
+		    <tt><b>bracketing.no-meta.vim</b></tt> or perhaps
+		    you'ld like to contrive your own key bindings
+		    based on <tt><b>bracketing.vim.template</b></tt></dd>
+		<p>
+		<dt><b>Windows/Mac:</b></dt>
+		<dd><tt><b>bracketing.meta.vim</b></tt> should do the
+		    trick. (only use the macros in vim-bracketing-mac
+		    on Macs - the generic macros wont work well!)</dd>
+	    </dl>
+	</ul>
+	</li>
+    <p>
+    <li>copy the above mentioned file to your home directory, and call
+	it: <tt><b>.bracketing.vim</b></tt>.
+	You'll also need to copy <b><tt>bracketing.base.vim</tt></b> to your
+	home directory. (call it <b><tt>.bracketing.base.vim</tt></b>
+	perhaps)</li>
+    <p>
+    <li>Edit your copy of <b><tt>bracketing.vim</tt></b>. You should
+	check the following:
+	<ul>
+	    <p>
+	    <li>check that the
+	    <p><b><tt>source bracketing.base.vim</tt></b>
+	    <p>line will access the right file. (On Unix and Windows
+	    you'll need the full pathname, on Mac's you can just use
+	    the file name if it's in the same directory)
+	    </li>
+	    <p>
+	    <li>Are all the macros you want mapped to key bindings?
+	    (check the <b><tt>bracketing.vim</tt></b> file - where all
+	    the key-mappings are made)</li>
+	</ul>
+    <p>
+    <li>You may like to check the settings at the top of
+	<tt>bracketing.base.vim</tt> (autoindent, cindent, etc.)</li>
+    <p>
+    <li>Edit your <tt>.vimrc</tt> (Windows: _vimrc, Mac: vimrc) file to
+	include the bracketing macros. You'll need something like:
+	<ul>
+	<dl>
+	<p>
+	<dt>Unix:</dt>
+	<dd>
+	<tt><pre>
+	source ~/.bracketing.vim
+	</pre></tt>
+	<p>
+	<dt>Windows:</dt>
+	<dd>
+	<tt><pre>
+	source c:\_bracketing.vim
+	</pre></tt>
+	<p>
+	<dt>Mac:</dt>
+	<dd>
+	<tt><pre>
+	source bracketing.vim
+	</pre></tt>
+	</dl>
+	</ul>
+	</li>
+    <p>
+    <li>Start a new vim process and try them out!</li>
+</ol>
+
+<h2>Signoff</h2>
+<p>
+Well, you should now have an insight as to how these macros work together
+- they are orthogonal, easy to remember, easy to type (if you have Meta
+keys) and quite flexible. They are also free, and more or less unsupported.
+(if you send me an e-mail I'll probably answer)
+</p>
+<p>
+<b>Bug fixes, suggestions, comments and improvements are all welcome!</b>
+</p>
+<p>
+<b>Enjoy!</b>
+</p>
+<hr>
+<address>
+Stephen Riehm
+<br>e-mail: <a href="mailto:Stephen.Riehm@bigfoot.com">Stephen.Riehm@bigfoot.com</a>
+</address>
+<hr>
+<center>&copy; Copyright: Stephen Riehm 1991 - 2000</center>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+Installation instructions of Vim FTP Explorer
+
+IMPORTANT NOTE:
+
+This product requires vim with python support compiled in
+  If you're in debian:
+    apt-get install vim-python
+
+  If you want to know if your vim has python support, start vim and try: 
+	:py print "Hello World"
+  if you get "Sorry, this command is not implemented" 
+  then your vim lacks python support.
+
+INSTRUCTIONS:
+
+1. edit ftpExplorer.py and set the following 
+   information about your Zope FTP Server:
+    - host
+    - port
+    - username
+    - password
+
+2. copy ftpExplorer.py wherever you want on your filesystem.
+
+3. edit ftpExplorer.vim and set the correct path to ftpExplorer.py
+   this setting is under a label that says 
+   'BE SURE THE PATH BELOW IS CORRECT'
+
+4. copy ftpExplorer.vim wherever you want on your filesystem.
+
+5. edit your ~/.vimrc and add the following entry:
+   source /path/to/your/ftpExplorer.vim
+
+that's it, then launch vim and type ",e" to bring up the ftp explorer
+browse your zope server with the cursor and the <enter> key
+press ,e everytime you want to go back to the ftp explorer.
+
+
+Hope you enjoy it.
+Feel free to send me some feedback.
+
+Alex Verstraeten 
+alex@quad.com.ar
+(zxc from #Zope)
+

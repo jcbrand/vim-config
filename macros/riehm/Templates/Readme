@@ -1,0 +1,19 @@
+	Stephen Riehm's template files
+	==============================
+
+This directory contains a few of the template files which I use on a
+day to day basis. They basically help me make sure that I've got all
+the "standard" headers and comments etc in the code I write.
+
+Note that between the markers are comments. When you jump to a marker,
+any such comment appears on the command line at the bottom of the
+screen. I've used this to remind me which macro I should use to
+automagically fill out some of the values (ie: the file name in the
+#ifdef's of C files.) You can ignore these hints at other macros, as
+those macros are not in this distribution.
+
+I have removed the copyright messages etc, but you would be wise to
+edit them before using them. Making your own from scratch is also
+probably not a bad idea (and not at all difficult)
+
+Stephen Riehm

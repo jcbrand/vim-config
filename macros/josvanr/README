@@ -1,0 +1,71 @@
+"                                                                              
+" |Readme|TODOList|
+"                                                                              
+"  |array.vim|       Functions for using arrays of strings.
+"  |arrays.vim|      Store multiple arrays in one string. (ALPHA)
+"  |arrayg.vim|      Functions that operates on global strings. (ALPHA)
+"  |bookmark.vim|    Macros for bookmaking favorite files.
+"  |buffun.vim|      Functions for buffer operations.
+"  |buflist.vim|     Interactive buffer list.
+"  |comments.vim|    Macros for commenting and uncommenting code.
+"  |compare.vim|     Compare two files by synchronizing file position. (ALPHA)
+"  |compile.vim|     Compile programs in various languages.
+"  |convert.vim|     Convert some files from dos to unix.
+"  |filebrws.vim|    File browser with file-type coloring.
+"  |fold.vim|        Use folding in Vim: hide and un-hide fragments of text.
+"  |ftpbrws.vim|     Ftp browser: edit files on a remote ftp server. (Dos)
+"  |fun.vim|         General purpose functions.
+"  |funuse.vim|      List functions from which a given function is called.
+"  |grep.vim|        Grep a string and browse the hits.
+"  |guibufwn.vim|    Buffer list menu, for use with gui menus.
+"  |hiarg.vim|       Highlight argument list of c and vim functions.
+"  |htmlfun.vim|     Functions for html editing.
+"  |inline.vim|      Include files in a html file: make an 'inline function'.
+"  |josfix.vim|      Quick-fix for Tex/Latex.
+"  |map.vim|         Mappings.
+"  |ngbufwn.vim|     Buffer list menu, for use with non-gui menus.
+"  |ngmenu.vim|      Menu command for non-gui vim.
+"  |ph.vim|          Simple html parser for vim.
+"  |settings.vim|    Define settings here. (Use ,s to edit, see setup.vim).
+"  |setup.vim|       Use an interactive setup-editor.
+"  |strfun.vim|      Functions for strings. (Partly obsolete).
+"  |tab.vim|         Aligning text, sort of a tab key.
+"  |tableaf.vim|     Generate tab leafs using ASCII characters.
+"  |tags.vim|        Make your own tag files.
+"  |txtfun.vim|      Functions for operating on text. (Obsolete)
+"  |userfun.vim|     Generate syntax files for user-defined functions.
+" Readme ---------------------------------------------------------- **Readme**
+"
+" Jos van Riswick                                       Date: April 16th 1999
+" For use with vim 5.3+ for windows, dos or unix
+" For feedback email: josvanr@xs4all.nl
+" http://www.dse.nl/~josvanr http://www.xs4all.nl/~josvanr
+"
+"   This file sources .vim files that contain mappings, settings,      
+"   functions and combinations of the three. The mappings available at 
+"   vim-startup, are defined in |map.vim|. General settings are defined
+"   in |settings.vim|. Use ,s to edit this (see |setup.vim|).
+"                                                                      
+"   Other .vim files can be sourced at will, to add functionality.
+"   Note that some files contain dependencies, so sourcing those files
+"   can cause other files to be sourced also. Most included files also
+"   define additional mappings.
+"
+" Todo list ------------------------------------------------------ **TODOList**
+"                                                                              
+"   * Rewrite the non-gui menu script ngmenu.vim, using the console
+"     menu additions in vim-5.4l
+"   * Make some useful menus and tool bar buttons for the gtk/win32
+"     gui version, like a menu for setting compiler options
+"   * Make file browser to emulate nc, or use tab leafs?
+"   * Make a :help 'file' command, displaying help for a file.
+"   * Make a command to open multiple files (exist already?) to avoid          
+"     'too many filenames' message.                                            
+"   * Modify bufferlist to accept numbers to go to buffer x
+"   * Make bufferlist last file edited appear on top
+"   * Comments: recognize max linewidth in comment box automatically            
+"     comment one line: use commentwidth.                                      
+"   * Make a clipboard interface (show contents of registers in a normal       
+"     window.                                                                  
+"   * Make a bookmarks script with directories of bookmarks/project files
+"   * Script for drawing/removing a cadr

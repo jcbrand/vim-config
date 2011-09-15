@@ -1,0 +1,64 @@
+$\(TITLE)
+$\(PIPE_TITLE)
+$\(PASS)
+$\(BASE)
+$\(EXT)
+$\(BASE).
+$\(SILENT)
+$\(LINEMAX)
+$\(DEBUG_MODE)
+$\(Hn)
+$\(FIRST_PAGE)
+$\(LAST_PAGE)
+$\(NEXT_PAGE)
+$\(PREV_PAGE)
+$\(FIRST_TITLE)
+$\(LAST_TITLE)
+$\(NEXT_TITLE)
+$\(PREV_TITLE)
+
+.define symbol [value]
+.define symbol = expression
+.define count = 1
+.echo $\(count)
+.if $\(PASS)
+.macro [-nosplit|-noquote] name macro-body
+.include filename
+.include filename!
+.include `command`
+.page filename = ["]title["]
+.page ["]title["]
+.pipe filename=title
+.ignore header
+.ignore header level
+.ignore pages
+.ignore page
+.if expression
+.else
+.endif
+.block blockname
+header
+footer
+toc_open
+toc_entry
+toc_close
+dir_open
+dir_entry
+dir_close
+index_open
+index_entry
+index_close
+anchor
+.endblock
+.block blockname local
+.build toc
+.build dir directory [filespec...]
+.build index
+.build anchor anchor-name[=title]
+.build user_block_name
+.echo [-] text
+.for name in item...
+.endfor
+.for name in `command`
+.for name in @filename
+.for name from start to end

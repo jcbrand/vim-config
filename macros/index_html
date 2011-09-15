@@ -1,0 +1,25 @@
+<!--#var standard_html_header-->
+
+<H1 ALIGN=CENTER>Welcome to Zope!</H1>
+
+<P>Congratulations, your Zope is up and running.  To view 
+some shameless Zope propaganda, please visit the included 
+<a href="<!--#var URL1-->/QuickStart/">QuickStart</a> material.</P>
+
+<P>To visit the management interface, please click on the 
+following link.  You will be prompted for the username and password 
+you used when you ran the Zope <code>install</code> utility.  If 
+you have forgotten, it is stored in the <code>access</code> file in 
+the Zope directory.</P>
+
+<P>If that username and password does not work and you are 
+integrating it with <em>your</em> web server, then this probably 
+means that your web server does not pass authentication information 
+to CGI scripts.  The <a href="http://www.zope.org/Support">Support area</a>
+on the Zope website has information to help you with this and
+other problems.</P>
+
+<P ALIGN=CENTER>Visit the <a 
+href="<!--#var URL1-->/manage">management screen</a>!</P>
+
+<!--#var standard_html_footer-->
