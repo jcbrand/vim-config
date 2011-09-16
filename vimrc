@@ -1,7 +1,6 @@
 behave xterm
 colorscheme desert
 
-
 source ~/.vim/no_dead.vim
 
 let loaded_vimspell=1
