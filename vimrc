@@ -1,8 +1,6 @@
 behave xterm
 colorscheme desert
 
-source ~/.vim/no_dead.vim
-
 let loaded_vimspell=1
 let loaded_product=1
 let mysyntaxfile = "~/.vim/syntax/mysyntax.vim"
@@ -23,9 +21,6 @@ map <PageDown> <C-F>
 " Browse quickfix hits
 nmap <f8> :cp<cr>
 nmap <f9> :cn<cr>
-
-imap <F9>      <ESC><F9>a
-map <F9>   :source ~/.vim/text_dead.vim<CR>
 
 "" set digraph                                       " required for those umlauts
 
