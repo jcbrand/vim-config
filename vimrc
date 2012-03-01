@@ -1,7 +1,16 @@
+"" XXX: VAM
+set runtimepath+=$HOME/.vim/addons/vim-addon-manager
+let addons_to_activate = ['snipmate', 'snipmate-snippets']
+
+call vam#ActivateAddons(addons_to_activate, {
+        \ 'auto_install': 1,
+        \ 'plugin_root_dir': $HOME.'/.vim/addons',
+        \ 'scm_merge_stategy': 'force',
+        \ 'known_repos_activation_policy': 'ask',
+        \ })
+
 behave xterm
 colorscheme desert
-
-source ~/.vim/no_dead.vim
 
 let loaded_vimspell=1
 let loaded_product=1
@@ -23,9 +32,6 @@ map <PageDown> <C-F>
 " Browse quickfix hits
 nmap <f8> :cp<cr>
 nmap <f9> :cn<cr>
-
-imap <F9>      <ESC><F9>a
-map <F9>   :source ~/.vim/text_dead.vim<CR>
 
 "" set digraph                                       " required for those umlauts
 
@@ -71,8 +77,7 @@ set nostartofline
 set path=.,~/.vim/syntax                          " The list of directories to search when you specify a file with an edit command.
 set report=0                                      " Show a report when N lines were changed. report=0 thus means "show all changes"!
 set ruler                                         " show cursor position?  Yep!
-set runtimepath=~/.vim,~/.vim,$VIMRUNTIME         " Extend runtimepath to look on the shared space.
-" set scrolljump=5
+set scrolljump=5
 set scrolloff=2                                   " Keep at least n lines of context above/below cursor
 set selectmode=mouse,key
 set sessionoptions=options,globals,buffers
@@ -130,7 +135,6 @@ endif
 " set t_vb=  " terminal's visual bell - turned off to make Vim quiet!
 " set helpheight=0 " helpheight: zero disables this.
 " set lazyredraw " do not update screen while executing macros
-" set visualbell
 
 " " ===================================================================
 " " MAPpings and macros
@@ -187,78 +191,25 @@ endif
 
 " General Editing
 " ===============
-" { Make copy/paste keys act like Windows } 
-" source $HOME/mswin.vim
-
-" {Make the command 'K' (keyword lookup) a little harder to type by
-" mistake.}
-" map K <C-K>
-
 " Disable the suspend for ^Z.
 " I use Vim under "screen" where a suspend would lose the
 " connection to the " terminal - which is what I want to avoid.
 " map <C-Z> :shell
 
-" The command {number}CTRL-G show the current buffer number, too.
-" This is yet another feature that vi does not have.
-" As I always want to see the buffer number I map it to CTRL-G.
-" Pleae note that here we need to prevent a loop in the mapping by
-" using the comamnd "noremap"!
-  noremap <C-G> 2<C-G>
-
 " Insert current date
   map ;id O<C-R>=strftime("%c")<cr><Esc>
 
-" Quote-text macro.  Use "mm" to mark the beginning of the block.
-" map >> :'m,.s/^/>/<CR>        { From Doug Renze; modified njj }
-" map ;>> :'m,.s/^/Combrink>  /<CR>
-"                  ^---------Replace that with the quote character.
-
-" Format current paragraph
-" map   <F9>    gqip
-" imap  <F9>    <C-O>gqip
-
-" Write current file
-" map   <F10>   :w<CR>
-" imap  <F10>   <C-O>:w<CR>
-
-"       { Scroll two windows up and down in parallel. }
+" { Scroll two windows up and down in parallel. }
   nmap <C-Down> <C-E><C-W>W<C-E><C-W>w
   imap <C-Down> <Esc><C-E><C-W>W<C-E><C-W>wa
   nmap <C-Up> <C-Y><C-W>W<C-Y><C-W>w
   imap <C-Up> <Esc><C-Y><C-W>W<C-Y><C-W>wa
-
-"      ;rcm = remove "control-m"s - for those mails sent from DOS:
-" cmap ;rcm %s/<C-M>$//g
-
-"      ,ce = "clear empty lines"
-"       - deletes all lines which are empty or "whitespace only" lines
-" cmap ;ce g/^[<C-I> ]*$/d
-  cmap ;ce g/^\s*$/d
-
-"      ,cqel = "clear quoted empty lines"
-"       Clears (makes empty) all lines which start with '>'
-"       and any amount of following spaces.
-" nmap ;cqel :%s/^[> ]*$//
-" vmap ;cqel  :s/^[> ]*$//
-  nmap ;cqel :%s/^[><C-I> ]\+$//
-  vmap ;cqel  :s/^[><C-I> ]\+$//
 
 " substitutes runs of two or more space to a single space.
 " Why can't this be an option of "text formatting"? *hrmpf*
 " {What about end-of-sentence? (dot-space-space)}
   nmap ;ksr :%s/ \+/ /g
   vmap ;ksr  :s/ \+/ /g
-
-"    ,Sl = "squeeze lines"
-"    Turn all blocks of empty lines (within current visual)
-"    into *one* empty line:
-  map ;Sl :g/^$/,/./-j
-
-"    ,sw = Transpose two words. {From: Michael Geddes 
-"                                      <mgeddes@cybergraphic.com.au>}
-  map ;sw "pdiwxhep"pp
-" -------------------------------------------------------------------
 
 python << EOF
 import os
@@ -341,7 +292,6 @@ if has("autocmd")
     autocmd FileType php set omnifunc=phpcomplete#CompletePHP
     autocmd FileType c set omnifunc=ccomplete#Complete
     " -------------------------------------------------------------------
-
 endif " has("autocmd")
 
 " Enabled file type detection and file-type specific plugins.
@@ -365,5 +315,4 @@ syn keyword pythonError do
 
 " To enable the Afrikaans (af) spell checker type:
 " :set spell spelllang=af 
-
 
