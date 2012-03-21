@@ -15,8 +15,6 @@ colorscheme desert
 let loaded_vimspell=1
 let loaded_product=1
 let mysyntaxfile = "~/.vim/syntax/mysyntax.vim"
-let html_my_rendering=1   " For Claudio Fleiner's 'html.vim' (See :h html.vim)
-let Tlist_Ctags_Cmd='/usr/bin/ctags'
 
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
@@ -34,7 +32,6 @@ nmap <f8> :cp<cr>
 nmap <f9> :cn<cr>
 
 "" set digraph                                       " required for those umlauts
-
 set autoindent                                    " as I use VIM for writing code.
 set background=dark
 set backspace=2                                   " allow backspacing over everything in insert mode
@@ -67,8 +64,6 @@ set matchpairs=(:),{:},[:],<:>                    " I tried to match `:' and ":"
 set maxfuncdepth=10000                            " For the Sort function below ..
 set modeline                                      " Allow the last line to be a modeline - useful when the last line in sig gives the preferred textwidth for replies.
 set mouse=a
-" set mousehide                                     " Hide the mouse pointer while entering text
-set nocompatible                                  " compatible is switched off anyway when a _vimrc is found. Needed by 'project'
 set noea                                          " don't automatically make the windows of equal size
 set noinsertmode                                  " Start in insert mode?  Naah.
 set nojoinspaces                                  " insert two spaces after a period with every joining of lines.  
@@ -126,15 +121,7 @@ if &t_Co > 2 || has("gui_running")
 endif 
 
 " set clipboard=unnamed  " so pasting to windows apps doesn't require prefixing
-" set cmdheight=1
-" set wildmenu            " display commandline autocompletion,  was toe nie so nice nie :/
 " set hlsearch showmatch
-" set errorformat
-" set equalprg
-" set formatprg
-" set t_vb=  " terminal's visual bell - turned off to make Vim quiet!
-" set helpheight=0 " helpheight: zero disables this.
-" set lazyredraw " do not update screen while executing macros
 
 " " ===================================================================
 " " MAPpings and macros
@@ -161,6 +148,7 @@ endif
   map \dc <C-W>k<C-W>k?^\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*$<CR>jYpdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j<C-W>j@a<C-W>k<C-W>k?^\*\*\*\*<CR>/^--- <CR>Ypdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j@a<C-W>kuuz<CR>
   map \dn <C-W>k<C-W>k/^\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*$<CR>jYpdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j<C-W>j@a<C-W>k<C-W>k?^\*\*\*\*<CR>/^--- <CR>Ypdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j@a<C-W>kuuz<CR>
   map \dp	<C-W>k<C-W>k?^\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*$<CR>?<CR>jYpdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j<C-W>j@a<C-W>k<C-W>k?^\*\*\*\*<CR>/^--- <CR>Ypdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j@a<C-W>kuuz<CR>
+
 " -------------------------------------------------------------------
 " Automatically update the date+time stamp on Web Pages (HTML files)
 " autocmd BufWrite *.html mz/Last updated: /e+1|D:r!date^MkJ'z
@@ -181,13 +169,6 @@ endif
   nmap ,cd :cd %:p:h<CR>
 
 " ------------------------------------------------------------------- 
-" njj: subtract <tags> from region or line
-  map _- :s?<[^>]\{-}>??g<cr>
-
-" Type a tag in the text, and press <C-]> to find it and delete the
-" reference.
-  ino <C-]> <ESC>wbdw:ta! <C-R>"<CR> 
-" -------------------------------------------------------------------
 
 " General Editing
 " ===============
@@ -294,24 +275,11 @@ if has("autocmd")
     " -------------------------------------------------------------------
 endif " has("autocmd")
 
-" Enabled file type detection and file-type specific plugins.
+" Enabled file type detection and file-type specific plugins. (PyFlakes)
+filetype on
 filetype plugin on
-" filetype plugin indent on
 
 syntax on
-
-syn match pythonError "^\s*def\s\+\w\+(.*)\s*$" display
-syn match pythonError "^\s*class\s\+\w\+(.*)\s*$" display
-syn match pythonError "^\s*for\s.*[^:]$" display
-syn match pythonError "^\s*except\s*$" display
-syn match pythonError "^\s*finally\s*$" display
-syn match pythonError "^\s*try\s*$" display
-syn match pythonError "^\s*else\s*$" display
-syn match pythonError "^\s*else\s*[^:].*" display
-syn match pythonError "^\s*if\s.*[^\:]$" display
-syn match pythonError "^\s*except\s.*[^\:]$" display
-syn match pythonError "[;]$" display
-syn keyword pythonError do
 
 " To enable the Afrikaans (af) spell checker type:
 " :set spell spelllang=af 
