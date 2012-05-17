@@ -59,7 +59,6 @@ set linebreak
 set listchars=tab:`\ ,extends:+,trail:~
 set matchpairs=(:),{:},[:],<:>                    " I tried to match `:' and ":" but no go
 set maxfuncdepth=10000                            " For the Sort function below ..
-set modeline                                      " Allow the last line to be a modeline - useful when the last line in sig gives the preferred textwidth for replies.
 set mouse=a
 " set mousehide                                     " Hide the mouse pointer while entering text
 set nocompatible                                  " compatible is switched off anyway when a _vimrc is found. Needed by 'project'
@@ -120,9 +119,7 @@ if &t_Co > 2 || has("gui_running")
     set hlsearch
 endif 
 
-" set clipboard=unnamed  " so pasting to windows apps doesn't require prefixing
 " set cmdheight=1
-" set wildmenu            " display commandline autocompletion,  was toe nie so nice nie :/
 " set hlsearch showmatch
 " set errorformat
 " set equalprg
@@ -130,7 +127,6 @@ endif
 " set t_vb=  " terminal's visual bell - turned off to make Vim quiet!
 " set helpheight=0 " helpheight: zero disables this.
 " set lazyredraw " do not update screen while executing macros
-" set visualbell
 
 " " ===================================================================
 " " MAPpings and macros
