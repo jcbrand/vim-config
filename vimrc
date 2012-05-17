@@ -1,13 +1,20 @@
+"" XXX: VAM
+set runtimepath+=$HOME/.vim/addons/vim-addon-manager
+let addons_to_activate = ['snipmate', 'snipmate-snippets']
+
+call vam#ActivateAddons(addons_to_activate, {
+        \ 'auto_install': 1,
+        \ 'plugin_root_dir': $HOME.'/.vim/addons',
+        \ 'scm_merge_stategy': 'force',
+        \ 'known_repos_activation_policy': 'ask',
+        \ })
+
 behave xterm
 colorscheme desert
-
-source ~/.vim/no_dead.vim
 
 let loaded_vimspell=1
 let loaded_product=1
 let mysyntaxfile = "~/.vim/syntax/mysyntax.vim"
-let html_my_rendering=1   " For Claudio Fleiner's 'html.vim' (See :h html.vim)
-let Tlist_Ctags_Cmd='/usr/bin/ctags'
 
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
@@ -24,11 +31,7 @@ map <PageDown> <C-F>
 nmap <f8> :cp<cr>
 nmap <f9> :cn<cr>
 
-imap <F9>      <ESC><F9>a
-map <F9>   :source ~/.vim/text_dead.vim<CR>
-
-"" set digraph                                       " required for those umlauts
-
+"" set digraph                                    " required for those umlauts
 set autoindent                                    " as I use VIM for writing code.
 set background=dark
 set backspace=2                                   " allow backspacing over everything in insert mode
@@ -60,8 +63,6 @@ set listchars=tab:`\ ,extends:+,trail:~
 set matchpairs=(:),{:},[:],<:>                    " I tried to match `:' and ":" but no go
 set maxfuncdepth=10000                            " For the Sort function below ..
 set mouse=a
-" set mousehide                                     " Hide the mouse pointer while entering text
-set nocompatible                                  " compatible is switched off anyway when a _vimrc is found. Needed by 'project'
 set noea                                          " don't automatically make the windows of equal size
 set noinsertmode                                  " Start in insert mode?  Naah.
 set nojoinspaces                                  " insert two spaces after a period with every joining of lines.  
@@ -70,8 +71,7 @@ set nostartofline
 set path=.,~/.vim/syntax                          " The list of directories to search when you specify a file with an edit command.
 set report=0                                      " Show a report when N lines were changed. report=0 thus means "show all changes"!
 set ruler                                         " show cursor position?  Yep!
-set runtimepath=~/.vim,~/.vim,$VIMRUNTIME         " Extend runtimepath to look on the shared space.
-" set scrolljump=5
+set scrolljump=5
 set scrolloff=2                                   " Keep at least n lines of context above/below cursor
 set selectmode=mouse,key
 set sessionoptions=options,globals,buffers
@@ -127,6 +127,8 @@ endif
 " set t_vb=  " terminal's visual bell - turned off to make Vim quiet!
 " set helpheight=0 " helpheight: zero disables this.
 " set lazyredraw " do not update screen while executing macros
+" set clipboard=unnamed  " so pasting to windows apps doesn't require prefixing
+" set hlsearch showmatch
 
 " " ===================================================================
 " " MAPpings and macros
@@ -153,6 +155,7 @@ endif
   map \dc <C-W>k<C-W>k?^\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*$<CR>jYpdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j<C-W>j@a<C-W>k<C-W>k?^\*\*\*\*<CR>/^--- <CR>Ypdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j@a<C-W>kuuz<CR>
   map \dn <C-W>k<C-W>k/^\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*$<CR>jYpdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j<C-W>j@a<C-W>k<C-W>k?^\*\*\*\*<CR>/^--- <CR>Ypdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j@a<C-W>kuuz<CR>
   map \dp	<C-W>k<C-W>k?^\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*$<CR>?<CR>jYpdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j<C-W>j@a<C-W>k<C-W>k?^\*\*\*\*<CR>/^--- <CR>Ypdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j@a<C-W>kuuz<CR>
+
 " -------------------------------------------------------------------
 " Automatically update the date+time stamp on Web Pages (HTML files)
 " autocmd BufWrite *.html mz/Last updated: /e+1|D:r!date^MkJ'z
@@ -173,88 +176,28 @@ endif
   nmap ,cd :cd %:p:h<CR>
 
 " ------------------------------------------------------------------- 
-" njj: subtract <tags> from region or line
-  map _- :s?<[^>]\{-}>??g<cr>
-
-" Type a tag in the text, and press <C-]> to find it and delete the
-" reference.
-  ino <C-]> <ESC>wbdw:ta! <C-R>"<CR> 
-" -------------------------------------------------------------------
 
 " General Editing
 " ===============
-" { Make copy/paste keys act like Windows } 
-" source $HOME/mswin.vim
-
-" {Make the command 'K' (keyword lookup) a little harder to type by
-" mistake.}
-" map K <C-K>
-
 " Disable the suspend for ^Z.
 " I use Vim under "screen" where a suspend would lose the
 " connection to the " terminal - which is what I want to avoid.
 " map <C-Z> :shell
 
-" The command {number}CTRL-G show the current buffer number, too.
-" This is yet another feature that vi does not have.
-" As I always want to see the buffer number I map it to CTRL-G.
-" Pleae note that here we need to prevent a loop in the mapping by
-" using the comamnd "noremap"!
-  noremap <C-G> 2<C-G>
-
 " Insert current date
   map ;id O<C-R>=strftime("%c")<cr><Esc>
 
-" Quote-text macro.  Use "mm" to mark the beginning of the block.
-" map >> :'m,.s/^/>/<CR>        { From Doug Renze; modified njj }
-" map ;>> :'m,.s/^/Combrink>  /<CR>
-"                  ^---------Replace that with the quote character.
-
-" Format current paragraph
-" map   <F9>    gqip
-" imap  <F9>    <C-O>gqip
-
-" Write current file
-" map   <F10>   :w<CR>
-" imap  <F10>   <C-O>:w<CR>
-
-"       { Scroll two windows up and down in parallel. }
+" { Scroll two windows up and down in parallel. }
   nmap <C-Down> <C-E><C-W>W<C-E><C-W>w
   imap <C-Down> <Esc><C-E><C-W>W<C-E><C-W>wa
   nmap <C-Up> <C-Y><C-W>W<C-Y><C-W>w
   imap <C-Up> <Esc><C-Y><C-W>W<C-Y><C-W>wa
-
-"      ;rcm = remove "control-m"s - for those mails sent from DOS:
-" cmap ;rcm %s/<C-M>$//g
-
-"      ,ce = "clear empty lines"
-"       - deletes all lines which are empty or "whitespace only" lines
-" cmap ;ce g/^[<C-I> ]*$/d
-  cmap ;ce g/^\s*$/d
-
-"      ,cqel = "clear quoted empty lines"
-"       Clears (makes empty) all lines which start with '>'
-"       and any amount of following spaces.
-" nmap ;cqel :%s/^[> ]*$//
-" vmap ;cqel  :s/^[> ]*$//
-  nmap ;cqel :%s/^[><C-I> ]\+$//
-  vmap ;cqel  :s/^[><C-I> ]\+$//
 
 " substitutes runs of two or more space to a single space.
 " Why can't this be an option of "text formatting"? *hrmpf*
 " {What about end-of-sentence? (dot-space-space)}
   nmap ;ksr :%s/ \+/ /g
   vmap ;ksr  :s/ \+/ /g
-
-"    ,Sl = "squeeze lines"
-"    Turn all blocks of empty lines (within current visual)
-"    into *one* empty line:
-  map ;Sl :g/^$/,/./-j
-
-"    ,sw = Transpose two words. {From: Michael Geddes 
-"                                      <mgeddes@cybergraphic.com.au>}
-  map ;sw "pdiwxhep"pp
-" -------------------------------------------------------------------
 
 python << EOF
 import os
@@ -337,29 +280,14 @@ if has("autocmd")
     autocmd FileType php set omnifunc=phpcomplete#CompletePHP
     autocmd FileType c set omnifunc=ccomplete#Complete
     " -------------------------------------------------------------------
-
 endif " has("autocmd")
 
-" Enabled file type detection and file-type specific plugins.
+" Enabled file type detection and file-type specific plugins. (PyFlakes)
+filetype on
 filetype plugin on
-" filetype plugin indent on
 
 syntax on
 
-syn match pythonError "^\s*def\s\+\w\+(.*)\s*$" display
-syn match pythonError "^\s*class\s\+\w\+(.*)\s*$" display
-syn match pythonError "^\s*for\s.*[^:]$" display
-syn match pythonError "^\s*except\s*$" display
-syn match pythonError "^\s*finally\s*$" display
-syn match pythonError "^\s*try\s*$" display
-syn match pythonError "^\s*else\s*$" display
-syn match pythonError "^\s*else\s*[^:].*" display
-syn match pythonError "^\s*if\s.*[^\:]$" display
-syn match pythonError "^\s*except\s.*[^\:]$" display
-syn match pythonError "[;]$" display
-syn keyword pythonError do
-
 " To enable the Afrikaans (af) spell checker type:
 " :set spell spelllang=af 
-
 
