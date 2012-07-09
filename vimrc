@@ -134,29 +134,6 @@ endif
 " " MAPpings and macros
 " " ===================================================================
 " -------------------------------------------------------------------
-" Author: cec@gryphon.gsfc.nasa.gov (Dr. Charles E. Campbell) 
-" Diffing two files currently open in two windows.
-" It opens a third window on top with the diff file
-"                            |diff| (which labels them *** old\n --- new\n)
-"  vi -o newfile oldfile ->  |new |
-"                            |old |
-"\dc will synchronize the two source windows to the current diff.
-"\dn synchronizes the windows to the next diff.
-"\dp synchronizes the windows to the previous diff.
-
-  if has("unix")
-    map \df <C-W>k<C-W>j:!diff -c <C-R>% <C-R># > /tmp/vimtmp.dif<C-M><C-W>k<C-W>s:e! /tmp/vimtmp.dif<C-M>:!/bin/rm -f /tmp/vimtmp.dif<C-M><C-M>
-  elseif has("win32")
-    map \df   <C-W>k<C-W>j:!diff -c <C-R>% <C-R># > $TEMP/vimtmp.dif<C-M><C-W>k<C-W>s:e $TEMP/vimtmp.dif<C-M>:!rm $TEMP/vimtmp.dif<C-M><C-M>
-  elseif has("vms")
-    map \df <C-W>k<C-W>j:!diff -c <C-R>% <C-R># > tmp:vimtmp.dif<C-M><C-W>k<C-W>s:e! tmp:vimtmp.dif<C-M>:!/bin/rm -f tmp:vimtmp.dif<C-M><C-M>
-  endif
-
-  map \dc <C-W>k<C-W>k?^\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*$<CR>jYpdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j<C-W>j@a<C-W>k<C-W>k?^\*\*\*\*<CR>/^--- <CR>Ypdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j@a<C-W>kuuz<CR>
-  map \dn <C-W>k<C-W>k/^\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*$<CR>jYpdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j<C-W>j@a<C-W>k<C-W>k?^\*\*\*\*<CR>/^--- <CR>Ypdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j@a<C-W>kuuz<CR>
-  map \dp	<C-W>k<C-W>k?^\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*$<CR>?<CR>jYpdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j<C-W>j@a<C-W>k<C-W>k?^\*\*\*\*<CR>/^--- <CR>Ypdwf,DAGz<C-V><CR><Esc>"aYdd<C-W>j@a<C-W>kuuz<CR>
-
-" -------------------------------------------------------------------
 " Automatically update the date+time stamp on Web Pages (HTML files)
 " autocmd BufWrite *.html mz/Last updated: /e+1|D:r!date^MkJ'z
 " autocmd BufWrite *.html :normal mz1G/Last/|
