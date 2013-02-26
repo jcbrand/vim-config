@@ -1,5 +1,5 @@
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
-let addons_to_activate = ['snipmate', 'snipmate-snippets', 'jslint', 'vcscommand']
+let addons_to_activate = ['snipmate', 'snipmate-snippets', 'jslint', 'vcscommand', 'TaskList']
 
 call vam#ActivateAddons(addons_to_activate, {
         \ 'auto_install': 1,
