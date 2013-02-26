@@ -1,6 +1,5 @@
-"" XXX: VAM
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
-let addons_to_activate = ['snipmate', 'snipmate-snippets', 'jslint']
+let addons_to_activate = ['snipmate', 'snipmate-snippets', 'jslint', 'vcscommand']
 
 call vam#ActivateAddons(addons_to_activate, {
         \ 'auto_install': 1,
@@ -8,6 +7,7 @@ call vam#ActivateAddons(addons_to_activate, {
         \ 'scm_merge_stategy': 'force',
         \ 'known_repos_activation_policy': 'ask',
         \ })
+" End VAM
 
 behave xterm
 colorscheme desert
