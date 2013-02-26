@@ -1,6 +1,6 @@
 "" XXX: VAM
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
-let addons_to_activate = ['snipmate', 'snipmate-snippets']
+let addons_to_activate = ['snipmate', 'snipmate-snippets', 'jslint']
 
 call vam#ActivateAddons(addons_to_activate, {
         \ 'auto_install': 1,
@@ -72,7 +72,7 @@ set path=.,~/.vim/syntax                          " The list of directories to s
 set report=0                                      " Show a report when N lines were changed. report=0 thus means "show all changes"!
 set ruler                                         " show cursor position?  Yep!
 set scrolljump=5
-set scrolloff=2                                   " Keep at least n lines of context above/below cursor
+set scrolloff=5                                   " Keep at least n lines of context above/below cursor
 set selectmode=mouse,key
 set sessionoptions=options,globals,buffers
 set shiftround                                    " Rounds > and < to multiple of shiftwidth.
@@ -133,18 +133,11 @@ endif
 " " ===================================================================
 " " MAPpings and macros
 " " ===================================================================
-" -------------------------------------------------------------------
-" Automatically update the date+time stamp on Web Pages (HTML files)
-" autocmd BufWrite *.html mz/Last updated: /e+1|D:r!date^MkJ'z
-" autocmd BufWrite *.html :normal mz1G/Last/|
 
   map ;l mz1/\(updated\\|edited\\|modified\)<cr>/\d<cr>2df i<c-r>=strftime("%c")<cr> <esc>'z
 
 " This file checks the contents of loaded files for syntax info .. 
   let myscriptsfile = "~/.vim/myscripts.vim"
-
-" Activate HTMLpp syntax highlighting for current file with "_hh":
-   nn _hh :source ~/.vim/syntax/htmlpp.vim<cr>
 
 " Activate DTML syntax highlighting for current file with "_dd":
   nn _dd :source ~/.vim/syntax/dtml.vim<cr>
@@ -152,15 +145,12 @@ endif
 " Change to current dir
   nmap ,cd :cd %:p:h<CR>
 
+  nmap <C-f> :!igor %<CR> <bar> :e!<CR>
+
 " ------------------------------------------------------------------- 
 
 " General Editing
 " ===============
-" Disable the suspend for ^Z.
-" I use Vim under "screen" where a suspend would lose the
-" connection to the " terminal - which is what I want to avoid.
-" map <C-Z> :shell
-
 " Insert current date
   map ;id O<C-R>=strftime("%c")<cr><Esc>
 
@@ -262,8 +252,11 @@ endif " has("autocmd")
 " Enabled file type detection and file-type specific plugins. (PyFlakes)
 filetype on
 filetype plugin on
-
 syntax on
+
+" Makes JSLint highlighting a bit nicer
+hi clear SpellBad
+hi SpellBad cterm=bold ctermbg=red ctermfg=black
 
 " To enable the Afrikaans (af) spell checker type:
 " :set spell spelllang=af 
