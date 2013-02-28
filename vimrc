@@ -1,6 +1,6 @@
 "" XXX: VAM
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
-let addons_to_activate = ['snipmate', 'snipmate-snippets']
+let addons_to_activate = ['snipmate', 'snipmate-snippets', 'csslint', 'Solarized']
 
 call vam#ActivateAddons(addons_to_activate, {
         \ 'auto_install': 1,
@@ -152,6 +152,8 @@ endif
 " Change to current dir
   nmap ,cd :cd %:p:h<CR>
 
+  nmap <C-f> :!igor %<CR> <bar> :e!<CR>
+
 " ------------------------------------------------------------------- 
 
 " General Editing
@@ -262,8 +264,11 @@ endif " has("autocmd")
 " Enabled file type detection and file-type specific plugins. (PyFlakes)
 filetype on
 filetype plugin on
-
 syntax on
+
+" Makes JSLint highlighting a bit nicer
+hi clear SpellBad
+hi SpellBad cterm=bold ctermbg=red ctermfg=black
 
 " To enable the Afrikaans (af) spell checker type:
 " :set spell spelllang=af 
