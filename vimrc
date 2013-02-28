@@ -1,15 +1,25 @@
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
-<<<<<<< HEAD
 let addons_to_activate = [
-                'snipmate', 
-                'snipmate-snippets', 
-                'jslint', 
-                'vcscommand', 
-                'TaskList', 
-                'python_match', 
-                'pythoncomplete', 
-                'Flake8-vim']
-let addons_to_activate = ['snipmate', 'snipmate-snippets', 'jslint', 'vcscommand', 'TaskList', 'python_match']
+                    \ 'snipmate', 
+                    \ 'snipmate-snippets', 
+                    \ 'jslint', 
+                    \ 'vcscommand', 
+                    \ 'TaskList', 
+                    \ 'python_match', 
+                    \ 'pythoncomplete', 
+                    \ 'pyflakes%2441', ]
+
+
+
+let addons_to_activate = [
+                    \ 'snipmate', 
+                    \ 'snipmate-snippets', 
+                    \ 'jslint', 
+                    \ 'vcscommand', 
+                    \ 'TaskList', 
+                    \ 'python_match',
+                    \ 'pythoncomplete', 
+                    \ 'pyflakes%2441', ]
 
 call vam#ActivateAddons(addons_to_activate, {
         \ 'auto_install': 1,
@@ -21,6 +31,9 @@ call vam#ActivateAddons(addons_to_activate, {
 
 behave xterm
 colorscheme desert
+syntax on
+
+let g:PyFlakeCheckers = 'pyflakes'
 
 let loaded_vimspell=1
 let loaded_product=1
@@ -42,6 +55,7 @@ nmap <f8> :cp<cr>
 nmap <f9> :cn<cr>
 
 "" set digraph                                    " required for those umlauts
+
 set autoindent                                    " as I use VIM for writing code.
 set background=dark
 set backspace=2                                   " allow backspacing over everything in insert mode
@@ -62,6 +76,7 @@ set grepformat=%f:%l:%m                           " TODO (default "%f:%l%m,%f  %
 set grepprg=grep\ -n                              " Output: "filename:linenumber:match"
 set hidden                                        " Abandon windows without prompting to save them (save them yourself later).
 set history=100                                   " Value used for viminfo too. 
+set hlsearch
 set icon                                          " Only works in X
 set ignorecase                                    " Ignore the case in search patterns?
 set include=^\\.\\s*include                       " For htmlpp input. Backslashes doubled since being used in a set command.
@@ -91,8 +106,8 @@ set shortmess=at                                  " Kind of messages to show.   
 set showbreak=++\ \ 
 set showcmd                                       " Show current uncompleted command?  Absolutely!
 set showmatch                                     " Show the matching bracket for the last ')'?
-set softtabstop=4
 set smartcase                                     " For searches.
+set softtabstop=4
 set suffixes=.bak,~,.o,.h,.info,.swp,.swo,.swn    " Lower priority when multiple files match a wildcard
 set switchbuf=useopen,split                       " Behavior when switching between buffers
 set tabstop=4
@@ -105,10 +120,9 @@ set ttyscroll=1                                   " This will make Vim redraw th
 set viminfo=%,'500,\"1000,:100,n~/.viminfo        " What info to store from an editing session in the viminfo file;  can be used at next session.
 set whichwrap=b,s,<,>,h,l,[,]
 set wildchar=<TAB>                                " wildchar  the char used for "expansion" on the command line default value is "<C-E>" but I prefer the tab key:
+set wildignore=*.pyc,*.swp
 set winaltkeys=no                                 " divorce the keyboard from the menus
 set writebackup                                   " writebackup:
-set wildignore=*.pyc,*.swp
-
 " For some reason this must be last...
 set iskeyword=@,48-57,_,192-255,-                 " Add the dash ('-') as "letter" to "words".  iskeyword=@,48-57,_,192-255   (default)
 
@@ -122,12 +136,6 @@ else
     set  shellslash          " bash.exe sees backslashes as escapes
 endif
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-    syntax on
-    set hlsearch
-endif 
 
 " set cmdheight=1
 " set hlsearch showmatch
