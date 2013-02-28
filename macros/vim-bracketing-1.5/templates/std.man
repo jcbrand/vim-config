@@ -1,1 +1,0 @@
-.TH "«name»" 1.SH NAME«name» - «description».SH SYNOPSIS.B «name» [-«options»] «».SH DESCRIPTION«description».SS Options.IP «option»«description of option».SH AUTHOR«your name and email address».SH "SEE ALSO"«»
