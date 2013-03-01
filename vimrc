@@ -7,7 +7,9 @@ let addons_to_activate = [
                     \ 'TaskList', 
                     \ 'python_match', 
                     \ 'pythoncomplete', 
-                    \ 'pyflakes%2441', ]
+                    \ 'khuno', 
+                    \ 'robotframework-vim', 
+                    \  ]
 
 
 
@@ -19,7 +21,9 @@ let addons_to_activate = [
                     \ 'TaskList', 
                     \ 'python_match',
                     \ 'pythoncomplete', 
-                    \ 'pyflakes%2441', ]
+                    \ 'khuno', 
+                    \ 'robotframework-vim', 
+                    \  ]
 
 call vam#ActivateAddons(addons_to_activate, {
         \ 'auto_install': 1,
