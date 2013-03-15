@@ -9,20 +9,7 @@ let addons_to_activate = [
                     \ 'pythoncomplete', 
                     \ 'khuno', 
                     \ 'robotframework-vim', 
-                    \  ]
-
-
-
-let addons_to_activate = [
-                    \ 'snipmate', 
-                    \ 'snipmate-snippets', 
-                    \ 'jslint', 
-                    \ 'vcscommand', 
-                    \ 'TaskList', 
-                    \ 'python_match',
-                    \ 'pythoncomplete', 
-                    \ 'khuno', 
-                    \ 'robotframework-vim', 
+                    \ 'python-imports2', 
                     \  ]
 
 call vam#ActivateAddons(addons_to_activate, {
@@ -37,8 +24,6 @@ behave xterm
 colorscheme desert
 syntax on
 
-let g:PyFlakeCheckers = 'pyflakes'
-
 let loaded_vimspell=1
 let loaded_product=1
 let mysyntaxfile = "~/.vim/syntax/mysyntax.vim"
@@ -49,16 +34,9 @@ let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1
 
 map T :TaskList<CR>
-map P :TlistToggle<CR>
-
-" Obvious mappings 
+map <buffer> <C-F>   :ImportName <C-R><C-W><CR>
+map <buffer> <C-F5>  :ImportNameHere <C-R><C-W><CR>
 map <PageUp>   <C-B>
-map <PageDown> <C-F>
-" Browse quickfix hits
-nmap <f8> :cp<cr>
-nmap <f9> :cn<cr>
-
-"" set digraph                                    " required for those umlauts
 
 set autoindent                                    " as I use VIM for writing code.
 set background=dark
@@ -130,17 +108,7 @@ set writebackup                                   " writebackup:
 " For some reason this must be last...
 set iskeyword=@,48-57,_,192-255,-                 " Add the dash ('-') as "letter" to "words".  iskeyword=@,48-57,_,192-255   (default)
 
-" Setting the "shell" is always tricky - especially when you are
-" trying to use the same vimrc on different operatin systems.
-if has ("unix")
-    set  shell=/bin/sh
-else
-    " cygwin is in the path
-    set  shell=bash.exe 
-    set  shellslash          " bash.exe sees backslashes as escapes
-endif
-
-
+" set digraph                                    " required for those umlauts
 " set cmdheight=1
 " set hlsearch showmatch
 " set errorformat
@@ -156,7 +124,7 @@ endif
 " " MAPpings and macros
 " " ===================================================================
 
-  map ;l mz1/\(updated\\|edited\\|modified\)<cr>/\d<cr>2df i<c-r>=strftime("%c")<cr> <esc>'z
+  map ;l mz1/\(updated\\|edited\\|modified\)<cr>/\d<cr>Wed 13 Mar 2013 09:39:11 AM SAST <esc>'z
 
 " This file checks the contents of loaded files for syntax info .. 
   let myscriptsfile = "~/.vim/myscripts.vim"
@@ -166,8 +134,6 @@ endif
 
 " Change to current dir
   nmap ,cd :cd %:p:h<CR>
-
-  nmap <C-f> :!igor %<CR> <bar> :e!<CR>
 
 " ------------------------------------------------------------------- 
 
