@@ -9,8 +9,7 @@ let addons_to_activate = [
                     \ 'pythoncomplete', 
                     \ 'khuno', 
                     \ 'robotframework-vim', 
-                    \ 'python-imports2', 
-                    \  ]
+                    \ 'python-imports@mgedmin']
 
 call vam#ActivateAddons(addons_to_activate, {
         \ 'auto_install': 1,
