@@ -42,10 +42,6 @@ let g:miniBufExplModSelTarget = 1
 
 " Mappings 
 " ========
-map T :TaskList<CR>
-map <buffer> <C-F>   :ImportName <C-R><C-W><CR>
-map <buffer> <C-F5>  :ImportNameHere <C-R><C-W><CR>
-map <PageUp>   <C-B>
 " Change to current dir
 nmap ,cd :cd %:p:h<CR>
 " Insert current date
@@ -60,6 +56,11 @@ imap <C-Up> <Esc><C-Y><C-W>W<C-Y><C-W>wa
 " {What about end-of-sentence? (dot-space-space)}
 nmap ;ksr :%s/ \+/ /g
 vmap ;ksr  :s/ \+/ /g
+
+map T :TaskList<CR>
+map <C-F>   :ImportName <C-R><C-W><CR>
+map <C-F5>  :ImportNameHere <C-R><C-W><CR>
+map <PageUp>   <C-B>
 
 set autoindent                                    " as I use VIM for writing code.
 set background=dark
