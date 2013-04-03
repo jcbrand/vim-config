@@ -1,3 +1,12 @@
+python << EOF
+import os
+import sys
+import vim
+for p in sys.path:
+    if os.path.isdir(p):
+        vim.command(r"set path+=%s" % (p.replace(" ", r"\ ")))
+EOF
+
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
 let addons_to_activate = [
                     \ 'snipmate', 
@@ -21,7 +30,6 @@ call vam#ActivateAddons(addons_to_activate, {
 
 behave xterm
 colorscheme desert
-syntax on
 
 let loaded_vimspell=1
 let loaded_product=1
@@ -32,10 +40,26 @@ let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1
 
+" Mappings 
+" ========
 map T :TaskList<CR>
 map <buffer> <C-F>   :ImportName <C-R><C-W><CR>
 map <buffer> <C-F5>  :ImportNameHere <C-R><C-W><CR>
 map <PageUp>   <C-B>
+" Change to current dir
+nmap ,cd :cd %:p:h<CR>
+" Insert current date
+map ;id O<C-R>=strftime("%c")<cr><Esc>
+" { Scroll two windows up and down in parallel. }
+nmap <C-Down> <C-E><C-W>W<C-E><C-W>w
+imap <C-Down> <Esc><C-E><C-W>W<C-E><C-W>wa
+nmap <C-Up> <C-Y><C-W>W<C-Y><C-W>w
+imap <C-Up> <Esc><C-Y><C-W>W<C-Y><C-W>wa
+" substitutes runs of two or more space to a single space.
+" Why can't this be an option of "text formatting"? *hrmpf*
+" {What about end-of-sentence? (dot-space-space)}
+nmap ;ksr :%s/ \+/ /g
+vmap ;ksr  :s/ \+/ /g
 
 set autoindent                                    " as I use VIM for writing code.
 set background=dark
@@ -107,60 +131,17 @@ set writebackup                                   " writebackup:
 " For some reason this must be last...
 set iskeyword=@,48-57,_,192-255,-                 " Add the dash ('-') as "letter" to "words".  iskeyword=@,48-57,_,192-255   (default)
 
-" set digraph                                    " required for those umlauts
-" set cmdheight=1
-" set hlsearch showmatch
-" set errorformat
-" set equalprg
-" set formatprg
-" set t_vb=  " terminal's visual bell - turned off to make Vim quiet!
-" set helpheight=0 " helpheight: zero disables this.
-" set lazyredraw " do not update screen while executing macros
 " set clipboard=unnamed  " so pasting to windows apps doesn't require prefixing
+" set cmdheight=1
+" set digraph                                    " required for those umlauts
+" set equalprg
+" set errorformat
+" set formatprg
+" set helpheight=0 " helpheight: zero disables this.
 " set hlsearch showmatch
-
-" " ===================================================================
-" " MAPpings and macros
-" " ===================================================================
-
-  map ;l mz1/\(updated\\|edited\\|modified\)<cr>/\d<cr>Wed 13 Mar 2013 09:39:11 AM SAST <esc>'z
-
-" This file checks the contents of loaded files for syntax info .. 
-  let myscriptsfile = "~/.vim/myscripts.vim"
-
-" Activate DTML syntax highlighting for current file with "_dd":
-  nn _dd :source ~/.vim/syntax/dtml.vim<cr>
-
-" Change to current dir
-  nmap ,cd :cd %:p:h<CR>
-
-" ------------------------------------------------------------------- 
-
-" General Editing
-" ===============
-" Insert current date
-  map ;id O<C-R>=strftime("%c")<cr><Esc>
-
-" { Scroll two windows up and down in parallel. }
-  nmap <C-Down> <C-E><C-W>W<C-E><C-W>w
-  imap <C-Down> <Esc><C-E><C-W>W<C-E><C-W>wa
-  nmap <C-Up> <C-Y><C-W>W<C-Y><C-W>w
-  imap <C-Up> <Esc><C-Y><C-W>W<C-Y><C-W>wa
-
-" substitutes runs of two or more space to a single space.
-" Why can't this be an option of "text formatting"? *hrmpf*
-" {What about end-of-sentence? (dot-space-space)}
-  nmap ;ksr :%s/ \+/ /g
-  vmap ;ksr  :s/ \+/ /g
-
-python << EOF
-import os
-import sys
-import vim
-for p in sys.path:
-    if os.path.isdir(p):
-        vim.command(r"set path+=%s" % (p.replace(" ", r"\ ")))
-EOF
+" set hlsearch showmatch
+" set lazyredraw " do not update screen while executing macros
+" set t_vb=  " terminal's visual bell - turned off to make Vim quiet!
 
 " ================================================================
 " AUTOCOMMANDS AUTOCOMMANDS AUTOCOMMANDS AUTOCOMMANDS AUTOCOMMANDS 
@@ -236,15 +217,14 @@ if has("autocmd")
     " -------------------------------------------------------------------
 endif " has("autocmd")
 
+" Makes JSLint highlighting a bit nicer
+hi clear SpellBad
+hi SpellBad cterm=bold ctermbg=red ctermfg=black
+
 " Enabled file type detection and file-type specific plugins. (PyFlakes)
 filetype on
 filetype plugin on
 syntax on
 
-" Makes JSLint highlighting a bit nicer
-hi clear SpellBad
-hi SpellBad cterm=bold ctermbg=red ctermfg=black
-
 " To enable the Afrikaans (af) spell checker type:
 " :set spell spelllang=af 
-
