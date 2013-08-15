@@ -12,6 +12,7 @@ let addons_to_activate = [
                     \ 'snipmate', 
                     \ 'snipmate-snippets', 
                     \ 'jslint', 
+                    \ 'Brolink',
                     \ 'vcscommand', 
                     \ 'TaskList', 
                     \ 'python_match', 
@@ -39,6 +40,7 @@ let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1
+let g:bl_no_implystart = 1
 
 
 " Mappings 
