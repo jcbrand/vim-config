@@ -40,6 +40,7 @@ let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1
 
+
 " Mappings 
 " ========
 " Change to current dir
@@ -57,10 +58,16 @@ imap <C-Up> <Esc><C-Y><C-W>W<C-Y><C-W>wa
 nmap ;ksr :%s/ \+/ /g
 vmap ;ksr  :s/ \+/ /g
 
+" hack to try and fix jslint artifacts
+map <C-J> :redraw!<CR>
+
+cmap w!! w !sudo tee %
+
 map T :TaskList<CR>
 map <C-F>   :ImportName <C-R><C-W><CR>
 map <C-F5>  :ImportNameHere <C-R><C-W><CR>
 map <PageUp>   <C-B>
+map <F5> :buffers<CR>:buffer<Space>
 
 set autoindent                                    " as I use VIM for writing code.
 set background=dark
@@ -173,6 +180,11 @@ if has("autocmd")
         autocmd BufRead,BufNewFile          *.vpy :set ft=python
         autocmd BufReadPre,FileReadPre      *.vpy :set ft=python
     augroup END
+
+    augroup mako 
+        autocmd BufRead,BufNewFile          *.mako :set ft=html
+        autocmd BufReadPre,FileReadPre      *.mako :set ft=html
+    augroup END
     
     augroup xliff
         autocmd BufRead,BufNewFile          *.xliff :set ft=xml
@@ -185,6 +197,7 @@ if has("autocmd")
     augroup END
 
     augroup javascript
+        autocmd BufRead,BufNewFile          *.json :set ft=javascript
         autocmd BufRead,BufNewFile          *.js.dtml :set ft=javascript
         autocmd BufReadPre,FileReadPre      *.js.dtml :set ft=javascript
     augroup END
@@ -192,6 +205,8 @@ if has("autocmd")
     augroup css 
         autocmd BufRead,BufNewFile          *.css.dtml :set ft=css
         autocmd BufReadPre,FileReadPre      *.css.dtml :set ft=css
+        autocmd BufRead,BufNewFile          *.scss :set ft=css
+        autocmd BufRead,BufNewFile          *.less :set ft=css
     augroup END
 
     augroup kss
