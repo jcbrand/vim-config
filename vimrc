@@ -19,6 +19,8 @@ let addons_to_activate = [
                     \ 'pythoncomplete', 
                     \ 'khuno', 
                     \ 'robotframework-vim', 
+                    \ 'markdown@tpope', 
+                    \ 'vim-coffee-script',
                     \ 'python-imports@mgedmin']
 
 call vam#ActivateAddons(addons_to_activate, {
@@ -235,14 +237,16 @@ if has("autocmd")
     " -------------------------------------------------------------------
 endif " has("autocmd")
 
-" Makes JSLint highlighting a bit nicer
-hi clear SpellBad
-hi SpellBad cterm=bold ctermbg=red ctermfg=black
-
 " Enabled file type detection and file-type specific plugins. (PyFlakes)
 filetype on
 filetype plugin on
 syntax on
+
+" Makes JSLint highlighting a bit nicer
+hi clear SpellBad
+hi SpellBad cterm=bold ctermbg=red ctermfg=black
+hi ErrorMsg term=standout cterm=bold ctermfg=7 ctermbg=017 guifg=White guibg=Red
+hi Error term=standout cterm=bold ctermfg=7 ctermbg=017 guifg=White guibg=Red
 
 " To enable the Afrikaans (af) spell checker type:
 " :set spell spelllang=af 
