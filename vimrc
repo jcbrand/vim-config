@@ -9,19 +9,21 @@ EOF
 
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
 let addons_to_activate = [
-                    \ 'snipmate', 
-                    \ 'snipmate-snippets', 
-                    \ 'jslint', 
-                    \ 'Brolink',
-                    \ 'vcscommand', 
-                    \ 'TaskList', 
-                    \ 'python_match', 
-                    \ 'pythoncomplete', 
-                    \ 'khuno', 
-                    \ 'robotframework-vim', 
-                    \ 'markdown@tpope', 
-                    \ 'vim-coffee-script',
-                    \ 'python-imports@mgedmin']
+        \ 'Brolink',
+        \ 'TaskList', 
+        \ 'fugitive',
+        \ 'jslint', 
+        \ 'khuno', 
+        \ 'markdown@tpope', 
+        \ 'python-imports@mgedmin',
+        \ 'python_match', 
+        \ 'pythoncomplete', 
+        \ 'robotframework-vim', 
+        \ 'snipmate', 
+        \ 'snipmate-snippets', 
+        \ 'vcscommand', 
+        \ 'vim-coffee-script',
+        \ 'vimwiki']
 
 call vam#ActivateAddons(addons_to_activate, {
         \ 'auto_install': 1,
@@ -38,11 +40,13 @@ let loaded_vimspell=1
 let loaded_product=1
 let mysyntaxfile = "~/.vim/syntax/mysyntax.vim"
 
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
 let g:bl_no_implystart = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplModSelTarget = 1
+let g:vimwiki_hl_headers = 1
+let g:vimwiki_hl_cb_checked = 1
 
 
 " Mappings 
