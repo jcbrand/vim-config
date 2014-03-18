@@ -20,7 +20,7 @@ let addons_to_activate = [
         \ 'pythoncomplete', 
         \ 'robotframework-vim', 
         \ 'snipmate', 
-        \ 'snipmate-snippets', 
+        \ 'vim-snippets', 
         \ 'vcscommand', 
         \ 'vim-coffee-script',
         \ 'vimwiki']
