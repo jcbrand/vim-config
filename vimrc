@@ -1,3 +1,23 @@
+set nocompatible | filetype indent plugin on | syn on
+
+fun! SetupVAM()
+  let c = get(g:, 'vim_addon_manager', {})
+  let g:vim_addon_manager = c
+  let c.plugin_root_dir = expand('$HOME', 1) . '/.vim/vim-addons'
+  " most used options you may want to use:
+  " let c.log_to_buf = 1
+  " let c.auto_install = 0
+  let &rtp.=(empty(&rtp)?'':',').c.plugin_root_dir.'/vim-addon-manager'
+  if !isdirectory(c.plugin_root_dir.'/vim-addon-manager/autoload')
+    execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
+        \       shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
+  endif
+  call vam#ActivateAddons([], {'auto_install' : 0})
+endfun
+
+call SetupVAM()
+VAMActivate matchit.zip vim-addon-commenting
+
 python << EOF
 import os
 import sys
@@ -240,11 +260,6 @@ if has("autocmd")
     autocmd FileType c set omnifunc=ccomplete#Complete
     " -------------------------------------------------------------------
 endif " has("autocmd")
-
-" Enabled file type detection and file-type specific plugins. (PyFlakes)
-filetype on
-filetype plugin on
-syntax on
 
 " Makes JSLint highlighting a bit nicer
 hi clear SpellBad
