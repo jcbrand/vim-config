@@ -167,18 +167,13 @@ set writebackup                                   " writebackup:
 " For some reason this must be last...
 set iskeyword=@,48-57,_,192-255,-                 " Add the dash ('-') as "letter" to "words".  iskeyword=@,48-57,_,192-255   (default)
 
-" set clipboard=unnamed  " so pasting to windows apps doesn't require prefixing
-" set cmdheight=1
 " set digraph                                    " required for those umlauts
 " set equalprg
 " set errorformat
 " set formatprg
-" set helpheight=0 " helpheight: zero disables this.
-" set hlsearch showmatch
 " set hlsearch showmatch
 " set lazyredraw " do not update screen while executing macros
-" set t_vb=  " terminal's visual bell - turned off to make Vim quiet!
-
+ 
 " ================================================================
 " AUTOCOMMANDS AUTOCOMMANDS AUTOCOMMANDS AUTOCOMMANDS AUTOCOMMANDS 
 " ================================================================
@@ -260,6 +255,8 @@ if has("autocmd")
     autocmd FileType c set omnifunc=ccomplete#Complete
     " -------------------------------------------------------------------
 endif " has("autocmd")
+
+sy on
 
 " Makes JSLint highlighting a bit nicer
 hi clear SpellBad
