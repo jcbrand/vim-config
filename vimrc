@@ -39,10 +39,12 @@ let addons_to_activate = [
         \ 'python_match', 
         \ 'pythoncomplete', 
         \ 'robotframework-vim', 
+        \ 'Solarized',
         \ 'snipmate', 
-        \ 'vim-snippets', 
+        \ 'unimpaired',
         \ 'vcscommand', 
         \ 'vim-coffee-script',
+        \ 'vim-snippets', 
         \ 'vimwiki']
 
 call vam#ActivateAddons(addons_to_activate, {
@@ -65,9 +67,9 @@ let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplModSelTarget = 1
-let g:vimwiki_hl_headers = 1
+let g:solarized_termtrans=1
 let g:vimwiki_hl_cb_checked = 1
-
+let g:vimwiki_hl_headers = 1
 
 " Mappings 
 " ========
@@ -97,7 +99,7 @@ map <C-F5>  :ImportNameHere <C-R><C-W><CR>
 map <PageUp>   <C-B>
 map <F5> :buffers<CR>:buffer<Space>
 
-set autoindent                                    " as I use VIM for writing code.
+set autoindent
 set background=dark
 set backspace=2                                   " allow backspacing over everything in insert mode
 set backup                                        " set autowrite
@@ -150,7 +152,7 @@ set showmatch                                     " Show the matching bracket fo
 set smartcase                                     " For searches.
 set softtabstop=4
 set suffixes=.bak,~,.o,.h,.info,.swp,.swo,.swn    " Lower priority when multiple files match a wildcard
-set switchbuf=useopen,split                       " Behavior when switching between buffers
+set switchbuf=useopen "split                      " Behavior when switching between buffers
 set tabstop=4
 set tags+=$HOME/.vim/tags/python.ctags
 set textwidth=79
@@ -263,6 +265,10 @@ hi clear SpellBad
 hi SpellBad cterm=bold ctermbg=red ctermfg=black
 hi ErrorMsg term=standout cterm=bold ctermfg=7 ctermbg=017 guifg=White guibg=Red
 hi Error term=standout cterm=bold ctermfg=7 ctermbg=017 guifg=White guibg=Red
+hi DiffChange term=bold ctermbg=2 ctermfg=1
+"hi DiffText term=reverse cterm=bold ctermbg=1 gui=bold guibg=Red
+"hi DiffText term=bold cterm=bold ctermbg=1 gui=bold guibg=Red
+
 
 " To enable the Afrikaans (af) spell checker type:
 " :set spell spelllang=af 
