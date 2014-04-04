@@ -29,23 +29,24 @@ EOF
 
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
 let addons_to_activate = [
-        \ 'Brolink',
+        \ 'Solarized',
+        \ 'Syntastic',
         \ 'TaskList', 
         \ 'fugitive',
-        \ 'jslint', 
-        \ 'khuno', 
         \ 'markdown@tpope', 
         \ 'python-imports@mgedmin',
         \ 'python_match', 
         \ 'pythoncomplete', 
         \ 'robotframework-vim', 
-        \ 'Solarized',
         \ 'snipmate', 
         \ 'unimpaired',
         \ 'vcscommand', 
         \ 'vim-coffee-script',
         \ 'vim-snippets', 
         \ 'vimwiki']
+
+" 'khuno', 
+" 'Brolink',
 
 call vam#ActivateAddons(addons_to_activate, {
         \ 'auto_install': 1,
@@ -88,7 +89,7 @@ imap <C-Up> <Esc><C-Y><C-W>W<C-Y><C-W>wa
 nmap ;ksr :%s/ \+/ /g
 vmap ;ksr  :s/ \+/ /g
 
-" hack to try and fix jslint artifacts
+" Refresh the screen
 map <C-J> :redraw!<CR>
 
 cmap w!! w !sudo tee %
@@ -200,6 +201,11 @@ if has("autocmd")
     " {Always go to last-edited position in a file}
     au BufReadPost * if line("'\"")|execute("normal `\"")|endif
     " -------------------------------------------------------------------
+     
+    augroup robot 
+        autocmd BufRead,BufNewFile          *.robot :set ft=robot
+        autocmd BufReadPre,FileReadPre      *.robot :set ft=robot
+    augroup END
 
     augroup vpy
         autocmd BufRead,BufNewFile          *.vpy :set ft=python
@@ -268,7 +274,6 @@ hi Error term=standout cterm=bold ctermfg=7 ctermbg=017 guifg=White guibg=Red
 hi DiffChange term=bold ctermbg=2 ctermfg=1
 "hi DiffText term=reverse cterm=bold ctermbg=1 gui=bold guibg=Red
 "hi DiffText term=bold cterm=bold ctermbg=1 gui=bold guibg=Red
-
 
 " To enable the Afrikaans (af) spell checker type:
 " :set spell spelllang=af 
