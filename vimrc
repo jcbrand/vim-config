@@ -212,6 +212,11 @@ if has("autocmd")
         autocmd BufReadPre,FileReadPre      *.vpy :set ft=python
     augroup END
 
+    augroup hbs
+        autocmd BufRead,BufNewFile          *.hbs   :set ft=html
+        autocmd BufReadPre,FileReadPre      *.hbs   :set ft=html
+    augroup END
+
     augroup mako 
         autocmd BufRead,BufNewFile          *.mako :set ft=html
         autocmd BufReadPre,FileReadPre      *.mako :set ft=html
