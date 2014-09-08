@@ -201,6 +201,11 @@ if has("autocmd")
     " {Always go to last-edited position in a file}
     au BufReadPost * if line("'\"")|execute("normal `\"")|endif
     " -------------------------------------------------------------------
+ 
+    augroup markdown
+        autocmd BufRead,BufNewFile          *.md    :set ft=markdown
+        autocmd BufReadPre,FileReadPre      *.md    :set ft=markdown
+    augroup END
      
     augroup robot 
         autocmd BufRead,BufNewFile          *.robot :set ft=robot
