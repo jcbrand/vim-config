@@ -1,5 +1,7 @@
 set nocompatible | filetype indent plugin on | syn on
 
+execute pathogen#infect()
+
 fun! SetupVAM()
   let c = get(g:, 'vim_addon_manager', {})
   let g:vim_addon_manager = c
