@@ -27,6 +27,7 @@ VAMActivate matchit.zip vim-addon-commenting
 "         vim.command(r"set path+=%s" % (p.replace(" ", r"\ ")))
 " EOF
 
+set cryptmethod=blowfish
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
 let addons_to_activate = [
         \ 'Solarized',
