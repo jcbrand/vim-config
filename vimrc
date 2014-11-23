@@ -44,6 +44,7 @@ let addons_to_activate = [
         \ 'TaskList', 
         \ 'fugitive',
         \ 'markdown@tpope', 
+        \ 'pathogen', 
         \ 'python-imports@mgedmin',
         \ 'python_match', 
         \ 'pythoncomplete', 
