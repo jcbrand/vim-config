@@ -4,11 +4,10 @@ execute pathogen#infect()
 
 " let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <c-w>h :TmuxNavigateLeft<cr>
-" nnoremap <silent> <c-a> :TmuxNavigateDown<cr>
-" nnoremap <silent> <c-a> :TmuxNavigateUp<cr>
-" nnoremap <silent> <c-a> :TmuxNavigateRight<cr>
-" nnoremap <silent> <c-a> :TmuxNavigatePrevious<cr>
-
+nnoremap <silent> <c-w>j :TmuxNavigateDown<cr>
+nnoremap <silent> <c-w>k :TmuxNavigateUp<cr>
+nnoremap <silent> <c-w>l :TmuxNavigateRight<cr>
+nnoremap <silent> <c-w>p :TmuxNavigatePrevious<cr>
 
 fun! SetupVAM()
   let c = get(g:, 'vim_addon_manager', {})
