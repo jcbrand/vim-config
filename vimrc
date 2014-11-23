@@ -1,8 +1,7 @@
 set nocompatible | filetype indent plugin on | syn on
 
-execute pathogen#infect()
 
-" let g:tmux_navigator_no_mappings = 1
+let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <c-w>h :TmuxNavigateLeft<cr>
 nnoremap <silent> <c-w>j :TmuxNavigateDown<cr>
 nnoremap <silent> <c-w>k :TmuxNavigateUp<cr>
@@ -66,6 +65,8 @@ call vam#ActivateAddons(addons_to_activate, {
         \ 'known_repos_activation_policy': 'ask',
         \ })
 " End VAM
+
+execute pathogen#infect()
 
 behave xterm
 colorscheme desert
