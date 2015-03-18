@@ -1,5 +1,13 @@
 set nocompatible | filetype indent plugin on | syn on
 
+
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <c-w>h :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-w>j :TmuxNavigateDown<cr>
+nnoremap <silent> <c-w>k :TmuxNavigateUp<cr>
+nnoremap <silent> <c-w>l :TmuxNavigateRight<cr>
+nnoremap <silent> <c-w>p :TmuxNavigatePrevious<cr>
+
 fun! SetupVAM()
   let c = get(g:, 'vim_addon_manager', {})
   let g:vim_addon_manager = c
@@ -27,6 +35,7 @@ VAMActivate matchit.zip vim-addon-commenting
 "         vim.command(r"set path+=%s" % (p.replace(" ", r"\ ")))
 " EOF
 
+set cryptmethod=blowfish
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
 let addons_to_activate = [
         \ 'Solarized',
@@ -34,6 +43,7 @@ let addons_to_activate = [
         \ 'TaskList', 
         \ 'fugitive',
         \ 'markdown@tpope', 
+        \ 'pathogen', 
         \ 'python-imports@mgedmin',
         \ 'python_match', 
         \ 'pythoncomplete', 
@@ -55,6 +65,8 @@ call vam#ActivateAddons(addons_to_activate, {
         \ 'known_repos_activation_policy': 'ask',
         \ })
 " End VAM
+
+execute pathogen#infect()
 
 behave xterm
 colorscheme desert
@@ -177,11 +189,10 @@ set iskeyword=@,48-57,_,192-255,-                 " Add the dash ('-') as "lette
 " set hlsearch showmatch
 " set lazyredraw " do not update screen while executing macros
  
-" ================================================================
-" AUTOCOMMANDS AUTOCOMMANDS AUTOCOMMANDS AUTOCOMMANDS AUTOCOMMANDS 
-" ================================================================
+" ============
+" AUTOCOMMANDS
+" ============
 if has("autocmd")
-
     " Remove ALL auto-commands.  This avoids having the
     " autocommands twice when the vimrc file is sourced again.
     autocmd!
@@ -201,62 +212,15 @@ if has("autocmd")
     " {Always go to last-edited position in a file}
     au BufReadPost * if line("'\"")|execute("normal `\"")|endif
     " -------------------------------------------------------------------
+ 
+    au BufNewFile,BufRead *.js.dtml             setf javascript
+    au BufNewFile,BufRead *.css.dtml,*.less	    setf css
+    au BufRead,BufNewFile *.robot               setf robot
+    au BufRead,BufNewFile *.vpy                 setf python
+    au BufRead,BufNewFile *.hbs, *.mako         setf html
+    au BufRead,BufNewFile *.zcml                setf xml
+    au BufRead,BufNewFile *.kss, *.kss.dtml     :set syntax=kss
      
-    augroup robot 
-        autocmd BufRead,BufNewFile          *.robot :set ft=robot
-        autocmd BufReadPre,FileReadPre      *.robot :set ft=robot
-    augroup END
-
-    augroup vpy
-        autocmd BufRead,BufNewFile          *.vpy :set ft=python
-        autocmd BufReadPre,FileReadPre      *.vpy :set ft=python
-    augroup END
-
-    augroup mako 
-        autocmd BufRead,BufNewFile          *.mako :set ft=html
-        autocmd BufReadPre,FileReadPre      *.mako :set ft=html
-    augroup END
-
-    augroup handlebars 
-        autocmd BufRead,BufNewFile          *.hbs  :set ft=html
-        autocmd BufReadPre,FileReadPre      *.hbs  :set ft=html
-    augroup END
-    
-    augroup xliff
-        autocmd BufRead,BufNewFile          *.xliff :set ft=xml
-        autocmd BufReadPre,FileReadPre      *.xliff :set ft=xml
-    augroup END
-
-    augroup zcml
-        autocmd BufRead,BufNewFile          *.zcml :set ft=xml
-        autocmd BufReadPre,FileReadPre      *.zcml :set ft=xml
-    augroup END
-
-    augroup javascript
-        autocmd BufRead,BufNewFile          *.json :set ft=javascript
-        autocmd BufRead,BufNewFile          *.js.dtml :set ft=javascript
-        autocmd BufReadPre,FileReadPre      *.js.dtml :set ft=javascript
-    augroup END
-
-    augroup css 
-        autocmd BufRead,BufNewFile          *.css.dtml :set ft=css
-        autocmd BufReadPre,FileReadPre      *.css.dtml :set ft=css
-        autocmd BufRead,BufNewFile          *.scss :set ft=css
-        autocmd BufRead,BufNewFile          *.less :set ft=css
-    augroup END
-
-    augroup kss
-        autocmd BufRead,BufNewFile          *.kss :set syntax=kss
-        autocmd BufReadPre,FileReadPre      *.kss :set syntax=kss
-        autocmd BufRead,BufNewFile          *.kss.dtml :set syntax=kss
-        autocmd BufReadPre,FileReadPre      *.kss.dtml :set syntax=kss
-    augroup END
-
-    augroup po
-        autocmd BufRead,BufNewFile          *.po :set syntax=po
-        autocmd BufReadPre,FileReadPre      *.po :set syntax=po
-    augroup END
-
     " Omnicomplete
     set ofu=syntaxcomplete#Complete
     autocmd FileType python set omnifunc=pythoncomplete#Complete
