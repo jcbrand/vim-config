@@ -216,6 +216,11 @@ if has("autocmd")
         autocmd BufRead,BufNewFile          *.mako :set ft=html
         autocmd BufReadPre,FileReadPre      *.mako :set ft=html
     augroup END
+
+    augroup handlebars 
+        autocmd BufRead,BufNewFile          *.hbs  :set ft=html
+        autocmd BufReadPre,FileReadPre      *.hbs  :set ft=html
+    augroup END
     
     augroup xliff
         autocmd BufRead,BufNewFile          *.xliff :set ft=xml
