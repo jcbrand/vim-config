@@ -1,7 +1,7 @@
 set nocompatible | filetype indent plugin on | syn on
 
 
-let g:tmux_navigator_no_mappings = 1
+" let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <c-w>h :TmuxNavigateLeft<cr>
 nnoremap <silent> <c-w>j :TmuxNavigateDown<cr>
 nnoremap <silent> <c-w>k :TmuxNavigateUp<cr>
@@ -49,6 +49,8 @@ let addons_to_activate = [
         \ 'pythoncomplete', 
         \ 'robotframework-vim', 
         \ 'snipmate', 
+        \ 'spreadsheet', 
+        \ 'mediawiki%3970',
         \ 'unimpaired',
         \ 'vcscommand', 
         \ 'vim-coffee-script',
