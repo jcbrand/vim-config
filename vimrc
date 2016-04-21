@@ -1,3 +1,5 @@
+let $BASH_ENV = "$HOME/.vim_bash_aliases"
+
 set nocompatible | filetype indent plugin on | syn on
 
 execute pathogen#infect()
