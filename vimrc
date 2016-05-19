@@ -57,6 +57,7 @@ let addons_to_activate = [
         \ 'spreadsheet', 
         \ 'unimpaired',
         \ 'vcscommand', 
+        \ 'VOoM', 
         \ 'vim-coffee-script',
         \ 'vim-snippets', 
         \ 'vimwiki']
@@ -80,6 +81,10 @@ colorscheme desert
 let loaded_vimspell=1
 let loaded_product=1
 let mysyntaxfile = "~/.vim/syntax/mysyntax.vim"
+
+" Change the VOoM return and tab keys so that they don't interfere with vimwiki
+let g:voom_return_key = "<C-Return>"
+" let g:voom_tab_key = "<ALT-Tab>"
 
 let g:bl_no_implystart = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
