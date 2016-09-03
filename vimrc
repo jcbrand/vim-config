@@ -54,7 +54,6 @@ let addons_to_activate = [
         \ 'pythoncomplete', 
         \ 'robotframework-vim', 
         \ 'snipmate', 
-        \ 'spreadsheet', 
         \ 'unimpaired',
         \ 'vcscommand', 
         \ 'VOoM', 
@@ -192,6 +191,7 @@ set winaltkeys=no                                 " divorce the keyboard from th
 set writebackup                                   " writebackup:
 " For some reason this must be last...
 set iskeyword=@,48-57,_,192-255,-                 " Add the dash ('-') as "letter" to "words".  iskeyword=@,48-57,_,192-255   (default)
+set iskeyword-={,},[,],(,)
 
 " set digraph                                    " required for those umlauts
 " set equalprg
