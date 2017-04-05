@@ -40,6 +40,8 @@ VAMActivate matchit.zip vim-addon-commenting
 
 set cryptmethod=blowfish
 set runtimepath+=$HOME/.vim/addons/vim-addon-manager
+
+let g:syntastic_javascript_checkers=['eslint']
 let addons_to_activate = [
         \ 'Solarized',
         \ 'Syntastic',
@@ -61,6 +63,7 @@ let addons_to_activate = [
         \ 'vim-snippets', 
         \ 'vimwiki']
 
+" 'spreadsheet', 
 " 'khuno', 
 " 'Brolink',
 
