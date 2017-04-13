@@ -227,6 +227,7 @@ if has("autocmd")
     au BufReadPost * if line("'\"")|execute("normal `\"")|endif
     " -------------------------------------------------------------------
  
+    au BufNewFile,BufRead *.lua.in              setf lua
     au BufNewFile,BufRead *.js.dtml             setf javascript
     au BufNewFile,BufRead *.css.dtml,*.less	    setf css
     au BufRead,BufNewFile *.robot               setf robot
